@@ -46,10 +46,11 @@ void envVarManagerCb(const char *var, const char *val, void *userCtx)
     }
 }
 
-NotecardManager::NotecardManager(){
-    
-    notecard.begin(NOTE_I2C_ADDR_DEFAULT, NOTE_I2C_MAX_DEFAULT, Wire1);
-    notecard.setDebugOutputStream(Serial);
+NotecardManager::NotecardManager(){}
+
+void NotecardManager::begin(){
+    notecard.begin(NOTE_I2C_ADDR_DEFAULT, NOTE_I2C_MAX_DEFAULT, Wire);
+    notecard.setDebugOutputStream(USBSerial);
 
     envVarManager = NotecardEnvVarManager_alloc();
     if (envVarManager == NULL) {
@@ -60,7 +61,6 @@ NotecardManager::NotecardManager(){
     {
     USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
     }
-
 }
 
 

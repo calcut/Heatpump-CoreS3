@@ -25,6 +25,10 @@
 #define PIN_RX_RS485 18
 #define PIN_TX_RS485 17
 #define PIN_DE_RS485 5
+
+#define PIN_RX0 44
+#define PIN_TX0 43
+
 // #define PIN_PULSE_COUNT 8 // Put in rtos_tasks.cpp for now, should be moved back
 
 #define YOTTA_MODULE_ID 0
@@ -73,23 +77,23 @@ void setup() {
 
     Wire1.begin(PIN_SDA_I2C_SYS, PIN_SCL_I2C_SYS, 400000);  //Init I2C_SYS
     Wire.begin(PIN_SDA_I2C_EXT, PIN_SCL_I2C_EXT, 400000);  //Init I2C_EXT
+    notecardManager.begin();
 
     USBSerial.printf("M5CoreS3 User Demo, Version: %s\r\n", DEMO_VERSION);
 
-    // BM8563 Init (clear INT)
-    M5.In_I2C.writeRegister8(0x51, 0x00, 0x00, 100000L);
-    M5.In_I2C.writeRegister8(0x51, 0x01, 0x00, 100000L);
-    M5.In_I2C.writeRegister8(0x51, 0x0D, 0x00, 100000L);
+    // // BM8563 Init (clear INT)
+    // M5.In_I2C.writeRegister8(0x51, 0x00, 0x00, 100000L);
+    // M5.In_I2C.writeRegister8(0x51, 0x01, 0x00, 100000L);
+    // M5.In_I2C.writeRegister8(0x51, 0x0D, 0x00, 100000L);
 
-    // AW9523 Control BOOST
-    M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN
+    // // AW9523 Control BOOST
+    // M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN
 
     M5.Display.setBrightness(60);
 
     lv_init();
     m5gfx_lvgl_init();
     ui_init();
-
     setup_rtos_tasks();
 
 }
@@ -97,6 +101,4 @@ void setup() {
 void loop() {
     // Nothing here. All the work is done in the RTOS tasks
 
-    // lv_timer_handler();
-    // delay(10);
 }

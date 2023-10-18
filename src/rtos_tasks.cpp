@@ -27,13 +27,13 @@ void setup_rtos_tasks(void){
     //     NULL); // out pointer to task handle
 
 
-    // xTaskCreate(
-    //     control, // task function
-    //     "PID Control", // task name
-    //     16384, // stack size in bytes
-    //     NULL, // pointer to parameters
-    //     1, // priority
-    //     &TaskHandle_Control); // out pointer to task handle
+    xTaskCreate(
+        control, // task function
+        "PID Control", // task name
+        16384, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        &TaskHandle_Control); // out pointer to task handle
 
     // xTaskCreate(
     //     state_machine, // task function
@@ -124,12 +124,14 @@ void notecard_service(void * pvParameters){
 
 void control(void * pvParameters){
     while(1){
-        if (db_vars.enabled == true){
-            compressorPID.Compute();
-            set_compressor_speed(qo_vars.compressor_target_speed);
-        }
+        // if (db_vars.enabled == true){
+        //     compressorPID.Compute();
+        //     set_compressor_speed(qo_vars.compressor_target_speed);
+        // }
+        USBSerial.printf("1 second debug print\n");
 
-        vTaskDelay(10 / portTICK_PERIOD_MS);
+
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
     
 }
