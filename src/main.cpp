@@ -72,10 +72,13 @@ void setup() {
         ret = nvs_flash_init();
     }
 
+    M5.In_I2C.bitOff(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 0
+    // M5.In_I2C.bitOff(AW9523_ADDR, 0x02, 0b00000010, 100000L);  // BUS_OUT_EN = 0
+    M5.In_I2C.bitOn(AW9523_ADDR, 0x02, 0b00000010, 100000L);  // BUS_OUT_EN = 1
+
     USBSerial.begin(15200);
     M5.begin();
 
-    Wire1.begin(PIN_SDA_I2C_SYS, PIN_SCL_I2C_SYS, 400000);  //Init I2C_SYS
     Wire.begin(PIN_SDA_I2C_EXT, PIN_SCL_I2C_EXT, 400000);  //Init I2C_EXT
     notecardManager.begin();
 
@@ -85,10 +88,6 @@ void setup() {
     // M5.In_I2C.writeRegister8(0x51, 0x00, 0x00, 100000L);
     // M5.In_I2C.writeRegister8(0x51, 0x01, 0x00, 100000L);
     // M5.In_I2C.writeRegister8(0x51, 0x0D, 0x00, 100000L);
-
-    // // AW9523 Control BOOST
-    // M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN
-
     M5.Display.setBrightness(60);
 
     lv_init();
