@@ -7,11 +7,11 @@
 #include <lvgl.h>
 #include <driver/pcnt.h> //ESP32 Pulse counter
 
-// #include "m5_cores3_hal.h"
-// #include "rtc_helpers.h"
+#include "rtc_helpers.h"
 #include "yotta_module.h"
 #include "notecard_manager.h"
-#include "var_structs.h"
+#include "shared_variables.h"
+#include "config.h"
 
 extern YottaModule yottaModule;
 extern NotecardManager notecardManager;
@@ -28,7 +28,7 @@ void setup_rtos_tasks(void);
 bool check_limits(void);
 
 void poll(void * pvParameters);
-// void notecard_time_sync(void * pvParameters);
+void notecard_time_sync(void * pvParameters);
 void notecard_service(void * pvParameters);
 void control(void * pvParameters);
 void state_machine(void * pvParameters);
