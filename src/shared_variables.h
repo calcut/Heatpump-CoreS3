@@ -1,5 +1,5 @@
-#ifndef VAR_STRUCTS_H
-#define VAR_STRUCTS_H
+#ifndef SHARED_VARIABLES_H
+#define SHARED_VARIABLES_H
 
 // DATABASE VARIABLES
 // These can be changed either on the device (e.g. GUI) or via the Notecard
