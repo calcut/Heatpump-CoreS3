@@ -3,6 +3,7 @@
 
 #define DEMO_VERSION "0.5"
 
+// From Demo
 #define GC0308_ADDR  0x21
 #define LTR553_ADDR  0x23
 #define AXP2101_ADDR 0x34
@@ -35,5 +36,21 @@
 #define MIC_BUF_SIZE 256
 
 #define MONKEY_TEST_ENABLE 0
+
+//Customised
+#define PIN_SDA_I2C_SYS 12
+#define PIN_SCL_I2C_SYS 11
+#define PIN_SDA_I2C_EXT 2
+#define PIN_SCL_I2C_EXT 1
+
+#define PIN_RX_RS485 18
+#define PIN_TX_RS485 17
+#define PIN_DE_RS485 5
+
+#define PIN_RX0 44
+#define PIN_TX0 43
+
+#define PIN_PULSE_COUNT 8
+
 
 #endif  // __CONFIG_H
