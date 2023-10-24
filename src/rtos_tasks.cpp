@@ -5,7 +5,6 @@ int previous_mode = STANDBY;
 
 TaskHandle_t TaskHandle_Control;
 
-#define PIN_PULSE_COUNT 8
 
 
 void setup_rtos_tasks(void){
@@ -18,13 +17,13 @@ void setup_rtos_tasks(void){
     //     1, // priority
     //     NULL); // out pointer to task handle
 
-    // xTaskCreate(
-    //     notecard_time_sync, // task function
-    //     "Notecard Time Sync", // task name
-    //     32768, // stack size in bytes
-    //     NULL, // pointer to parameters
-    //     1, // priority
-    //     NULL); // out pointer to task handle
+    xTaskCreate(
+        notecard_time_sync, // task function
+        "Notecard Time Sync", // task name
+        32768, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
 
 
     xTaskCreate(
@@ -103,24 +102,24 @@ void notecard_service(void * pvParameters){
     }
 }
 
-// void notecard_time_sync(void * pvParameters){
-//   while(1) {
-//     xSemaphoreTake(nc_mutex, portMAX_DELAY);
-//     notecardManager.cardStatus();
+void notecard_time_sync(void * pvParameters){
+  while(1) {
+    xSemaphoreTake(nc_mutex, portMAX_DELAY);
+    notecardManager.cardStatus();
 
-//     if(notecardManager.connected){
-//         USBSerial.printf("Notecard time sync\n");
+    if(notecardManager.connected){
+        USBSerial.printf("Notecard time sync\n");
 
-//         notecardManager.getTime();
-//         setRTC(notecardManager.epoch_time, notecardManager.utc_offset_minutes);
-//     }
-//     else{
-//         USBSerial.printf("Notecard not connected, skipping time sync\n");
-//     }
-//     xSemaphoreGive(nc_mutex);
-//     vTaskDelay(db_vars.nc_time_sync_interval_s*1000 / portTICK_PERIOD_MS);
-//   }
-// }
+        notecardManager.getTime();
+        setRTC(notecardManager.epoch_time, notecardManager.utc_offset_minutes);
+    }
+    else{
+        USBSerial.printf("Notecard not connected, skipping time sync\n");
+    }
+    xSemaphoreGive(nc_mutex);
+    vTaskDelay(db_vars.nc_time_sync_interval_s*1000 / portTICK_PERIOD_MS);
+  }
+}
 
 void control(void * pvParameters){
     while(1){
@@ -128,7 +127,7 @@ void control(void * pvParameters){
         //     compressorPID.Compute();
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
-        USBSerial.printf("1 second debug print\n");
+        // USBSerial.printf("1 second debug print\n");
 
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);
