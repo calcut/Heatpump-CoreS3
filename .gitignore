@@ -1,4 +1,5 @@
 .pio
 .vscode
-
 .DS_Store
+lib/ui/autosave/CoreS3_SLS_Project_autosave*
+lib/ui/backup/CoreS3_SLS_Project_backup*
