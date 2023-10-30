@@ -8,7 +8,8 @@
 void ui_Screen5_screen_init(void)
 {
 ui_Screen5 = lv_obj_create(NULL);
-lv_obj_clear_flag( ui_Screen5, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+lv_obj_clear_flag( ui_Screen5, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM );    /// Flags
+lv_obj_set_scrollbar_mode(ui_Screen5, LV_SCROLLBAR_MODE_OFF);
 
 ui_Header5 = lv_obj_create(ui_Screen5);
 lv_obj_set_height( ui_Header5, 25);
@@ -42,16 +43,6 @@ lv_label_set_text(ui_Header_Time5,"--:--:--");
 lv_obj_set_style_text_color(ui_Header_Time5, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_text_opa(ui_Header_Time5, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
-ui_TextAreaLog = lv_textarea_create(ui_Screen5);
-lv_obj_set_width( ui_TextAreaLog, 310);
-lv_obj_set_height( ui_TextAreaLog, 206);
-lv_obj_set_x( ui_TextAreaLog, 5 );
-lv_obj_set_y( ui_TextAreaLog, 29 );
-lv_textarea_set_placeholder_text(ui_TextAreaLog,"Placeholder...");
-lv_obj_clear_flag( ui_TextAreaLog, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN );    /// Flags
-
-
-
 ui_Button5 = lv_btn_create(ui_Screen5);
 lv_obj_set_width( ui_Button5, 100);
 lv_obj_set_height( ui_Button5, 80);
@@ -63,6 +54,17 @@ lv_obj_set_style_border_color(ui_Button5, lv_color_hex(0x000000), LV_PART_MAIN |
 lv_obj_set_style_border_opa(ui_Button5, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
 lv_obj_set_style_shadow_color(ui_Button5, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_shadow_opa(ui_Button5, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
+
+ui_TextAreaLog = lv_textarea_create(ui_Screen5);
+lv_obj_set_width( ui_TextAreaLog, 313);
+lv_obj_set_height( ui_TextAreaLog, 208);
+lv_obj_set_x( ui_TextAreaLog, 3 );
+lv_obj_set_y( ui_TextAreaLog, 28 );
+lv_textarea_set_placeholder_text(ui_TextAreaLog,"Placeholder...");
+lv_obj_clear_flag( ui_TextAreaLog, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN );    /// Flags
+lv_obj_set_scrollbar_mode(ui_TextAreaLog, LV_SCROLLBAR_MODE_OFF);
+
+
 
 lv_obj_add_event_cb(ui_Button5, ui_event_Button5, LV_EVENT_ALL, NULL);
 
