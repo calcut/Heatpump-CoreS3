@@ -173,9 +173,9 @@ extern lv_obj_t *ui_Header5;
 extern lv_obj_t *ui_BackLabel4;
 extern lv_obj_t *ui_Header_Title5;
 extern lv_obj_t *ui_Header_Time5;
+extern lv_obj_t *ui_TextAreaLog;
 void ui_event_Button5( lv_event_t * e);
 extern lv_obj_t *ui_Button5;
-extern lv_obj_t *ui_TextAreaLog;
 extern lv_obj_t *ui____initial_actions0;
 
 
