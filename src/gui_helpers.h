@@ -17,7 +17,7 @@ extern env_variables_t env_vars;
 extern bool nc_service_enable;
 extern bool nc_service_tick;
 
-static char txt_log[TERMINAL_LOG_LENGTH + 1];
+extern char txt_log[TERMINAL_LOG_LENGTH + 1];
 
 void setup_gui_timers(void);
 void display_notecard_info(lv_timer_t * timer);

@@ -1,6 +1,7 @@
 #include <gui_helpers.h>
 
 char text_buffer[64];
+char txt_log[TERMINAL_LOG_LENGTH + 1];
 
 void setup_gui_timers(){
 
@@ -149,7 +150,7 @@ void display_sensor_info(lv_timer_t * timer){
 
         // loop over all ui_Label2_valueX objects and update with new values
         for (int i = 0; i < 6; i++){
-            sprintf(text_buffer, "%0.1f °C", qo_vars.tc[i]);
+            sprintf(text_buffer, "%0.1f C", qo_vars.tc[i]);
             // dtostrf(qo_vars.tc[i], 0, FLOAT_DECIMALS, buffer);
             lv_label_set_text(tc_values[i], text_buffer);
             lv_bar_set_value(tc_bars[i], qo_vars.tc[i], LV_ANIM_OFF);
