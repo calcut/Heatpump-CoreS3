@@ -9,13 +9,13 @@ TaskHandle_t TaskHandle_Control;
 
 void setup_rtos_tasks(void){
 
-    // xTaskCreate(
-    //     poll, // task function
-    //     "Poll Yotta Module", // task name
-    //     16384, // stack size in bytes
-    //     NULL, // pointer to parameters
-    //     1, // priority
-    //     NULL); // out pointer to task handle
+    xTaskCreate(
+        poll, // task function
+        "Poll Yotta Module", // task name
+        16384, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
 
     xTaskCreate(
         notecard_time_sync, // task function
@@ -34,13 +34,13 @@ void setup_rtos_tasks(void){
         1, // priority
         &TaskHandle_Control); // out pointer to task handle
 
-    // xTaskCreate(
-    //     state_machine, // task function
-    //     "State Machine", // task name
-    //     16384, // stack size in bytes
-    //     NULL, // pointer to parameters
-    //     1, // priority
-    //     NULL); // out pointer to task handle
+    xTaskCreate(
+        state_machine, // task function
+        "State Machine", // task name
+        16384, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
 
     xTaskCreate(
         notecard_service, // task function
@@ -58,13 +58,13 @@ void setup_rtos_tasks(void){
         1, // priority
         NULL); // out pointer to task handle
 
-    // xTaskCreate(
-    //     read_pulses, // task function
-    //     "Read Pulses", // task name
-    //     1024, // stack size in bytes
-    //     NULL, // pointer to parameters
-    //     1, // priority
-    //     NULL); // out pointer to task handle
+    xTaskCreate(
+        read_pulses, // task function
+        "Read Pulses", // task name
+        1024, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
 }
 
 void gui_service(void * pvParameters){
@@ -127,7 +127,7 @@ void control(void * pvParameters){
         //     compressorPID.Compute();
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
-        // serialDisplay.printf("1 second debug print %d\n", millis());
+        serialDisplay.printf("1 second debug print %d\n", millis());
 
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -277,6 +277,7 @@ void state_machine(void * pvParameters){
 }
 
 void poll(void * pvParameters){
+    yottaModule.init();
     while(1){
         USBSerial.printf("Polling at %d ms\n", db_vars.poll_interval_ms);
         yottaModule.readTC_float(qo_vars.tc);
