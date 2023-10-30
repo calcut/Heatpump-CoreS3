@@ -10,7 +10,7 @@
 #include "rtc_helpers.h"
 #include "yotta_module.h"
 #include "notecard_manager.h"
-#include "shared_variables.h"
+#include "globals.h"
 #include "config.h"
 #include "gui_helpers.h" 
 

@@ -1,5 +1,10 @@
-#ifndef SHARED_VARIABLES_H
-#define SHARED_VARIABLES_H
+#ifndef GLOBALS_H
+#define GLOBALS_H
+
+#include <M5Unified.h>
+
+#define TERMINAL_LOG_LENGTH 512
+
 
 // DATABASE VARIABLES
 // These can be changed either on the device (e.g. GUI) or via the Notecard
@@ -56,5 +61,16 @@ typedef struct {
     float tw_flex_min = 20.0;
     float tw_flex_max = 40.0;
 } env_variables_t;
+
+class SerialDisplay : public HWCDC
+//https://stackoverflow.com/questions/60972073/customizing-the-standard-serial-print-functions-in-arduino
+{
+    using HWCDC::HWCDC; // Inherit constructors
+    public:
+        size_t write(const uint8_t *buffer, size_t size) override;   // Overriding base functionality
+};
+extern SerialDisplay serialDisplay;
+extern char log_display_buffer[TERMINAL_LOG_LENGTH + 1];
+
 
 #endif

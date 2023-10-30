@@ -1,7 +1,6 @@
-#include <gui_helpers.h>
+#include "gui_helpers.h"
 
 char text_buffer[64];
-char txt_log[TERMINAL_LOG_LENGTH + 1];
 
 void setup_gui_timers(){
 
@@ -9,6 +8,7 @@ void setup_gui_timers(){
     lv_timer_t * timer_notecard_info = lv_timer_create(display_notecard_info, 1000, NULL);
     lv_timer_t * timer_sensor_info = lv_timer_create(display_sensor_info, 1000, NULL);
     lv_timer_t * timer_pid_info = lv_timer_create(display_pid_info, 1000, NULL);
+    lv_timer_t * timer_log = lv_timer_create(display_log, 250, NULL);
 
     lv_obj_add_event_cb(ui_Screen3, nc_info_screen_event_cb, LV_EVENT_SCREEN_LOAD_START, NULL);
     lv_obj_add_event_cb(ui_Screen3, nc_info_screen_event_cb, LV_EVENT_SCREEN_UNLOAD_START, NULL);
@@ -188,30 +188,6 @@ void display_date_time_labels(lv_timer_t * timer){
     // lv_label_set_text(ui_Header_Time3, time_str);
 }
 
-
-size_t SerialDisplay::write(const uint8_t *buffer, size_t size){
-
-    char *txt_in = (char*)buffer;
-    uint16_t txt_len = strlen(txt_in);
-    uint16_t old_len = strlen(txt_log); 
-
-    //Append the new text to the end of the log, deleting the oldest text if necessary
-    if (old_len + txt_len > TERMINAL_LOG_LENGTH){
-        //If the new text is longer than the log, then delete the oldest text
-        uint16_t new_start = old_len - (TERMINAL_LOG_LENGTH - txt_len);
-        uint16_t new_len = old_len - new_start;
-        memcpy(txt_log, &txt_log[new_start], new_len);
-        memcpy(&txt_log[new_len], txt_in, txt_len);
-
-        txt_log[new_len+txt_len] = '\0';
-    }
-    else{
-        //If the new text is shorter than the log, then append it to the end
-        memcpy(&txt_log[old_len], txt_in, txt_len);
-        txt_log[old_len + txt_len] = '\0';
-    }
-
-    lv_textarea_set_text(ui_TextAreaLog, txt_log);
-    return HWCDC::write(buffer, size);
+void display_log(lv_timer_t * timer){
+    lv_textarea_set_text(ui_TextAreaLog, log_display_buffer);
 }
-SerialDisplay serialDisplay;
