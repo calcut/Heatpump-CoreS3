@@ -62,7 +62,7 @@ lv_obj_set_height( ui_TextAreaLog, 206);
 lv_obj_set_x( ui_TextAreaLog, 5 );
 lv_obj_set_y( ui_TextAreaLog, 29 );
 lv_textarea_set_placeholder_text(ui_TextAreaLog,"Placeholder...");
-lv_obj_clear_flag( ui_TextAreaLog, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE );    /// Flags
+lv_obj_clear_flag( ui_TextAreaLog, LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE );    /// Flags
 
 
 
