@@ -43,20 +43,6 @@ lv_label_set_recolor(ui_Header_Title2,"true");
 lv_obj_set_style_text_color(ui_Header_Title2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_text_opa(ui_Header_Title2, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
-ui_Button2 = lv_btn_create(ui_Header2);
-lv_obj_set_width( ui_Button2, 100);
-lv_obj_set_height( ui_Button2, 80);
-lv_obj_set_x( ui_Button2, -10 );
-lv_obj_set_y( ui_Button2, -10 );
-lv_obj_add_flag( ui_Button2, LV_OBJ_FLAG_SCROLL_ON_FOCUS );   /// Flags
-lv_obj_clear_flag( ui_Button2, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_obj_set_style_bg_color(ui_Button2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_Button2, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_border_color(ui_Button2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_border_opa(ui_Button2, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_shadow_color(ui_Button2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_shadow_opa(ui_Button2, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-
 ui_Panel2_sensor1 = lv_obj_create(ui_Screen2);
 lv_obj_set_width( ui_Panel2_sensor1, 320);
 lv_obj_set_height( ui_Panel2_sensor1, 25);
@@ -322,6 +308,20 @@ lv_obj_set_height( ui_Label2_name8, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Label2_name8, 165 );
 lv_obj_set_y( ui_Label2_name8, -10 );
 lv_label_set_text(ui_Label2_name8,"Compressor Out");
+
+ui_Button2 = lv_btn_create(ui_Screen2);
+lv_obj_set_width( ui_Button2, 100);
+lv_obj_set_height( ui_Button2, 80);
+lv_obj_set_x( ui_Button2, -10 );
+lv_obj_set_y( ui_Button2, -10 );
+lv_obj_add_flag( ui_Button2, LV_OBJ_FLAG_SCROLL_ON_FOCUS );   /// Flags
+lv_obj_clear_flag( ui_Button2, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+lv_obj_set_style_bg_color(ui_Button2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_bg_opa(ui_Button2, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
+lv_obj_set_style_border_color(ui_Button2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_border_opa(ui_Button2, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
+lv_obj_set_style_shadow_color(ui_Button2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_shadow_opa(ui_Button2, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 lv_obj_add_event_cb(ui_Button2, ui_event_Button2, LV_EVENT_ALL, NULL);
 

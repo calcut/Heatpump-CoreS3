@@ -68,7 +68,7 @@ void setup() {
     M5.begin();
 
     Wire.begin(PIN_SDA_I2C_EXT, PIN_SCL_I2C_EXT, 400000);  //Init I2C_EXT
-    notecardManager.begin();
+    notecardManager.begin(serialDisplay);
 
     USBSerial.printf("M5CoreS3 User Demo, Version: %s\r\n", DEMO_VERSION);
     M5.Display.setBrightness(60);

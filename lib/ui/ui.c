@@ -39,8 +39,6 @@ lv_obj_t *ui_Header1;
 lv_obj_t *ui_BackLabel;
 lv_obj_t *ui_Header_Title1;
 lv_obj_t *ui_Header_Time1;
-void ui_event_Button1( lv_event_t * e);
-lv_obj_t *ui_Button1;
 lv_obj_t *ui_Arc_Group;
 lv_obj_t *ui_Label2;
 void ui_event_Arc1( lv_event_t * e);
@@ -49,6 +47,8 @@ lv_obj_t *ui_Label_Celsius;
 void ui_event_Fan_Speed_Control( lv_event_t * e);
 lv_obj_t *ui_Fan_Speed_Control;
 lv_obj_t *ui_Label_Slider;
+void ui_event_Button1( lv_event_t * e);
+lv_obj_t *ui_Button1;
 
 
 // SCREEN: ui_Screen2
@@ -58,8 +58,6 @@ lv_obj_t *ui_Header2;
 lv_obj_t *ui_BackLabel1;
 lv_obj_t *ui_Header_Time2;
 lv_obj_t *ui_Header_Title2;
-void ui_event_Button2( lv_event_t * e);
-lv_obj_t *ui_Button2;
 lv_obj_t *ui_Panel2_sensor1;
 lv_obj_t *ui_Bar2_value1;
 lv_obj_t *ui_Label2_value1;
@@ -92,18 +90,18 @@ lv_obj_t *ui_Panel2_sensor8;
 lv_obj_t *ui_Bar2_value8;
 lv_obj_t *ui_Label2_value8;
 lv_obj_t *ui_Label2_name8;
+void ui_event_Button2( lv_event_t * e);
+lv_obj_t *ui_Button2;
 
 
 // SCREEN: ui_Screen3
 void ui_Screen3_screen_init(void);
 lv_obj_t *ui_Screen3;
-lv_obj_t *ui_Bar1;
 lv_obj_t *ui_Header3;
 lv_obj_t *ui_BackLabel2;
 lv_obj_t *ui_Header_Title3;
 lv_obj_t *ui_Header_Time3;
-void ui_event_Button3( lv_event_t * e);
-lv_obj_t *ui_Button3;
+lv_obj_t *ui_Bar1;
 lv_obj_t *ui_Bar2;
 lv_obj_t *ui_Bar3;
 lv_obj_t *ui_Bar4;
@@ -119,14 +117,14 @@ lv_obj_t *ui_TextAreaHubStatus;
 lv_obj_t *ui_TextAreaSyncStatus;
 lv_obj_t *ui_Button3_Refresh;
 lv_obj_t *ui_Label3_Refresh;
+void ui_event_Button3( lv_event_t * e);
+lv_obj_t *ui_Button3;
 
 
 // SCREEN: ui_Screen4
 void ui_Screen4_screen_init(void);
 lv_obj_t *ui_Screen4;
 lv_obj_t *ui_Header4;
-void ui_event_Button4( lv_event_t * e);
-lv_obj_t *ui_Button4;
 lv_obj_t *ui_BackLabel3;
 lv_obj_t *ui_Header_Title4;
 lv_obj_t *ui_Header_Time4;
@@ -157,6 +155,8 @@ lv_obj_t *ui_Label4_Iterm_val;
 lv_obj_t *ui_Label4_Output_val;
 lv_obj_t *ui_Label4_Pterm_val;
 lv_obj_t *ui_Label4_Dterm_val;
+void ui_event_Button4( lv_event_t * e);
+lv_obj_t *ui_Button4;
 
 
 // SCREEN: ui_Screen5
@@ -166,9 +166,9 @@ lv_obj_t *ui_Header5;
 lv_obj_t *ui_BackLabel4;
 lv_obj_t *ui_Header_Title5;
 lv_obj_t *ui_Header_Time5;
+lv_obj_t *ui_TextAreaLog;
 void ui_event_Button5( lv_event_t * e);
 lv_obj_t *ui_Button5;
-lv_obj_t *ui_TextAreaLog;
 lv_obj_t *ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -236,12 +236,6 @@ if ( event_code == LV_EVENT_CLICKED) {
       _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen3_screen_init);
 }
 }
-void ui_event_Button1( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen0, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen0_screen_init);
-}
-}
 void ui_event_Arc1( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_VALUE_CHANGED) {
@@ -252,6 +246,12 @@ void ui_event_Fan_Speed_Control( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_VALUE_CHANGED) {
       fan_speed_value( e );
+}
+}
+void ui_event_Button1( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen0, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen0_screen_init);
 }
 }
 void ui_event_Button2( lv_event_t * e) {

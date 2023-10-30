@@ -36,7 +36,7 @@ class NotecardManager {
         
     public:
         NotecardManager();
-        void begin();
+        void begin(Stream &serial_stream);
         void init(const char *uid, const char *mode, int inbound, int outbound, bool sync);
         void hubGet();
         void hubStatus();

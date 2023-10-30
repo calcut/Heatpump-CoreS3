@@ -48,9 +48,9 @@ void envVarManagerCb(const char *var, const char *val, void *userCtx)
 
 NotecardManager::NotecardManager(){}
 
-void NotecardManager::begin(){
+void NotecardManager::begin(Stream &serial_stream){
     notecard.begin(NOTE_I2C_ADDR_DEFAULT, NOTE_I2C_MAX_DEFAULT, Wire);
-    notecard.setDebugOutputStream(USBSerial);
+    notecard.setDebugOutputStream(serial_stream);
 
     envVarManager = NotecardEnvVarManager_alloc();
     if (envVarManager == NULL) {

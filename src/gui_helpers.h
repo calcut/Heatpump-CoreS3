@@ -7,7 +7,7 @@
 #include "notecard_manager.h"
 #include "shared_variables.h"
 
-#define TERMINAL_LOG_LENGTH  512        /*Characters*/
+#define TERMINAL_LOG_LENGTH  512       /*Characters*/
 
 extern NotecardManager notecardManager;
 extern QuickPID compressorPID;
