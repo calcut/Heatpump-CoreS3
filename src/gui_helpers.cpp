@@ -177,3 +177,31 @@ void display_date_time_labels(lv_timer_t * timer){
     // lv_label_set_text(ui_Header_Time1, time_str);
     // lv_label_set_text(ui_Header_Time3, time_str);
 }
+
+
+size_t SerialDisplay::write(const uint8_t *buffer, size_t size){
+
+    char *txt_in = (char*)buffer;
+    uint16_t txt_len = strlen(txt_in);
+    uint16_t old_len = strlen(txt_log); 
+
+    //Append the new text to the end of the log, deleting the oldest text if necessary
+    if (old_len + txt_len > TERMINAL_LOG_LENGTH){
+        //If the new text is longer than the log, then delete the oldest text
+        uint16_t new_start = old_len - (TERMINAL_LOG_LENGTH - txt_len);
+        uint16_t new_len = old_len - new_start;
+        memcpy(txt_log, &txt_log[new_start], new_len);
+        memcpy(&txt_log[new_len], txt_in, txt_len);
+
+        txt_log[new_len+txt_len] = '\0';
+    }
+    else{
+        //If the new text is shorter than the log, then append it to the end
+        memcpy(&txt_log[old_len], txt_in, txt_len);
+        txt_log[old_len + txt_len] = '\0';
+    }
+
+    lv_textarea_set_text(ui_TextAreaLog, txt_log);
+    return HWCDC::write(buffer, size);
+}
+SerialDisplay serialDisplay;

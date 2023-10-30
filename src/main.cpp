@@ -40,8 +40,7 @@ db_variables_t db_vars;
 qo_variables_t qo_vars;
 env_variables_t env_vars;
 
-bool nc_service_enable = true;
-// bool nc_service_enable = false;
+bool nc_service_enable = false;
 bool nc_service_tick = false;
 
 QuickPID compressorPID(

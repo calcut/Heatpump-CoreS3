@@ -127,7 +127,7 @@ void control(void * pvParameters){
         //     compressorPID.Compute();
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
-        // USBSerial.printf("1 second debug print\n");
+        serialDisplay.printf("1 second debug print %d\n", millis());
 
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);

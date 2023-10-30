@@ -12,6 +12,7 @@
 #include "notecard_manager.h"
 #include "shared_variables.h"
 #include "config.h"
+#include "gui_helpers.h" 
 
 extern YottaModule yottaModule;
 extern NotecardManager notecardManager;
