@@ -49,6 +49,20 @@ lv_label_set_text(ui_Header_Time3,"--:--:--");
 lv_obj_set_style_text_color(ui_Header_Time3, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_text_opa(ui_Header_Time3, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
+ui_Button3 = lv_btn_create(ui_Header3);
+lv_obj_set_width( ui_Button3, 100);
+lv_obj_set_height( ui_Button3, 80);
+lv_obj_set_x( ui_Button3, -10 );
+lv_obj_set_y( ui_Button3, -10 );
+lv_obj_add_flag( ui_Button3, LV_OBJ_FLAG_SCROLL_ON_FOCUS );   /// Flags
+lv_obj_clear_flag( ui_Button3, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+lv_obj_set_style_bg_color(ui_Button3, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_bg_opa(ui_Button3, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
+lv_obj_set_style_border_color(ui_Button3, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_border_opa(ui_Button3, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
+lv_obj_set_style_shadow_color(ui_Button3, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_shadow_opa(ui_Button3, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
+
 ui_Bar2 = lv_bar_create(ui_Screen3);
 lv_obj_set_width( ui_Bar2, 10);
 lv_obj_set_height( ui_Bar2, 30);
@@ -161,18 +175,6 @@ lv_obj_set_x( ui_Label3_Refresh, 107 );
 lv_obj_set_y( ui_Label3_Refresh, -25 );
 lv_obj_set_align( ui_Label3_Refresh, LV_ALIGN_CENTER );
 lv_label_set_text(ui_Label3_Refresh,"Refresh");
-
-ui_Button3 = lv_btn_create(ui_Screen3);
-lv_obj_set_width( ui_Button3, 100);
-lv_obj_set_height( ui_Button3, 80);
-lv_obj_add_flag( ui_Button3, LV_OBJ_FLAG_SCROLL_ON_FOCUS );   /// Flags
-lv_obj_clear_flag( ui_Button3, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_obj_set_style_bg_color(ui_Button3, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_Button3, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_border_color(ui_Button3, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_border_opa(ui_Button3, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_shadow_color(ui_Button3, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_shadow_opa(ui_Button3, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 lv_obj_add_event_cb(ui_Button3, ui_event_Button3, LV_EVENT_ALL, NULL);
 
