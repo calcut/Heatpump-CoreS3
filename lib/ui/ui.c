@@ -9,10 +9,34 @@
 ///////////////////// VARIABLES ////////////////////
 
 
+// SCREEN: ui_Screen0
+void ui_Screen0_screen_init(void);
+lv_obj_t *ui_Screen0;
+void ui_event_Button01_Button0( lv_event_t * e);
+lv_obj_t *ui_Button01;
+void ui_event_Button02_Button0( lv_event_t * e);
+lv_obj_t *ui_Button02;
+void ui_event_Button03_Button0( lv_event_t * e);
+lv_obj_t *ui_Button03;
+void ui_event_Button04_Button0( lv_event_t * e);
+lv_obj_t *ui_Button04;
+void ui_event_Button05_Button0( lv_event_t * e);
+lv_obj_t *ui_Button05;
+void ui_event_Button06_Button0( lv_event_t * e);
+lv_obj_t *ui_Button06;
+void ui_event_Button07_Button0( lv_event_t * e);
+lv_obj_t *ui_Button07;
+void ui_event_Button08_Button0( lv_event_t * e);
+lv_obj_t *ui_Button08;
+void ui_event_Button09_Button0( lv_event_t * e);
+lv_obj_t *ui_Button09;
+
+
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 lv_obj_t *ui_Screen1;
 lv_obj_t *ui_Header1;
+lv_obj_t *ui_BackLabel;
 lv_obj_t *ui_Header_Title1;
 lv_obj_t *ui_Header_Time1;
 lv_obj_t *ui_Arc_Group;
@@ -23,22 +47,15 @@ lv_obj_t *ui_Label_Celsius;
 void ui_event_Fan_Speed_Control( lv_event_t * e);
 lv_obj_t *ui_Fan_Speed_Control;
 lv_obj_t *ui_Label_Slider;
-void ui_event_Button1a( lv_event_t * e);
-lv_obj_t *ui_Button1a;
-lv_obj_t *ui_Button1b;
-void ui_event_Button1c( lv_event_t * e);
-lv_obj_t *ui_Button1c;
+void ui_event_Button1( lv_event_t * e);
+lv_obj_t *ui_Button1;
 
 
 // SCREEN: ui_Screen2
 void ui_Screen2_screen_init(void);
 lv_obj_t *ui_Screen2;
-void ui_event_Button2a( lv_event_t * e);
-lv_obj_t *ui_Button2a;
-lv_obj_t *ui_Button2b;
-void ui_event_Button2c( lv_event_t * e);
-lv_obj_t *ui_Button2c;
 lv_obj_t *ui_Header2;
+lv_obj_t *ui_BackLabel1;
 lv_obj_t *ui_Header_Time2;
 lv_obj_t *ui_Header_Title2;
 lv_obj_t *ui_Panel2_sensor1;
@@ -73,18 +90,16 @@ lv_obj_t *ui_Panel2_sensor8;
 lv_obj_t *ui_Bar2_value8;
 lv_obj_t *ui_Label2_value8;
 lv_obj_t *ui_Label2_name8;
+void ui_event_Button2( lv_event_t * e);
+lv_obj_t *ui_Button2;
 
 
 // SCREEN: ui_Screen3
 void ui_Screen3_screen_init(void);
 lv_obj_t *ui_Screen3;
-void ui_event_Button3a( lv_event_t * e);
-lv_obj_t *ui_Button3a;
-lv_obj_t *ui_Button3b;
-void ui_event_Button3c( lv_event_t * e);
-lv_obj_t *ui_Button3c;
 lv_obj_t *ui_Bar1;
 lv_obj_t *ui_Header3;
+lv_obj_t *ui_BackLabel2;
 lv_obj_t *ui_Header_Title3;
 lv_obj_t *ui_Header_Time3;
 lv_obj_t *ui_Bar2;
@@ -102,12 +117,15 @@ lv_obj_t *ui_TextAreaHubStatus;
 lv_obj_t *ui_TextAreaSyncStatus;
 lv_obj_t *ui_Button3_Refresh;
 lv_obj_t *ui_Label3_Refresh;
+void ui_event_Button3( lv_event_t * e);
+lv_obj_t *ui_Button3;
 
 
 // SCREEN: ui_Screen4
 void ui_Screen4_screen_init(void);
 lv_obj_t *ui_Screen4;
 lv_obj_t *ui_Header4;
+lv_obj_t *ui_BackLabel3;
 lv_obj_t *ui_Header_Title4;
 lv_obj_t *ui_Header_Time4;
 lv_obj_t *ui_Panel4_Kp;
@@ -123,11 +141,6 @@ lv_obj_t *ui_Panel4_In;
 lv_obj_t *ui_Label4_inplus;
 lv_obj_t *ui_Panel4_Out;
 lv_obj_t *ui_Label4_outplus;
-lv_obj_t *ui_Button4b;
-void ui_event_Button4a( lv_event_t * e);
-lv_obj_t *ui_Button4a;
-void ui_event_Button4c( lv_event_t * e);
-lv_obj_t *ui_Button4c;
 lv_obj_t *ui_Label4_Error;
 lv_obj_t *ui_Label4_Error_val;
 lv_obj_t *ui_Label4_Output;
@@ -142,6 +155,8 @@ lv_obj_t *ui_Label4_Iterm_val;
 lv_obj_t *ui_Label4_Output_val;
 lv_obj_t *ui_Label4_Pterm_val;
 lv_obj_t *ui_Label4_Dterm_val;
+void ui_event_Button4( lv_event_t * e);
+lv_obj_t *ui_Button4;
 lv_obj_t *ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -155,6 +170,60 @@ lv_obj_t *ui____initial_actions0;
 ///////////////////// ANIMATIONS ////////////////////
 
 ///////////////////// FUNCTIONS ////////////////////
+void ui_event_Button01_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen1, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen1_screen_init);
+}
+}
+void ui_event_Button02_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen2, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen2_screen_init);
+}
+}
+void ui_event_Button03_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen3_screen_init);
+}
+}
+void ui_event_Button04_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen4, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen4_screen_init);
+}
+}
+void ui_event_Button05_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen4, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen4_screen_init);
+}
+}
+void ui_event_Button06_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen4, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen4_screen_init);
+}
+}
+void ui_event_Button07_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen3_screen_init);
+}
+}
+void ui_event_Button08_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen3_screen_init);
+}
+}
+void ui_event_Button09_Button0( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_CLICKED) {
+      _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Screen3_screen_init);
+}
+}
 void ui_event_Arc1( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_VALUE_CHANGED) {
@@ -167,66 +236,44 @@ if ( event_code == LV_EVENT_VALUE_CHANGED) {
       fan_speed_value( e );
 }
 }
-void ui_event_Button1a( lv_event_t * e) {
+void ui_event_Button1( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen4, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen4_screen_init);
+      _ui_screen_change( &ui_Screen0, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen0_screen_init);
 }
 }
-void ui_event_Button1c( lv_event_t * e) {
+void ui_event_Button2( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen2, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Screen2_screen_init);
+      _ui_screen_change( &ui_Screen0, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen0_screen_init);
 }
 }
-void ui_event_Button2a( lv_event_t * e) {
+void ui_event_Button3( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen1, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen1_screen_init);
+      _ui_screen_change( &ui_Screen0, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen0_screen_init);
 }
 }
-void ui_event_Button2c( lv_event_t * e) {
+void ui_event_Button4( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Screen3_screen_init);
-}
-}
-void ui_event_Button3a( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen2, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen2_screen_init);
-}
-}
-void ui_event_Button3c( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen4, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Screen4_screen_init);
-}
-}
-void ui_event_Button4a( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen3_screen_init);
-}
-}
-void ui_event_Button4c( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_CLICKED) {
-      _ui_screen_change( &ui_Screen1, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Screen1_screen_init);
+      _ui_screen_change( &ui_Screen0, LV_SCR_LOAD_ANIM_FADE_ON, 150, 0, &ui_Screen0_screen_init);
 }
 }
 
 ///////////////////// SCREENS ////////////////////
 
 void ui_init( void )
-{
+{LV_EVENT_GET_COMP_CHILD = lv_event_register_id();
+
 lv_disp_t *dispp = lv_disp_get_default();
 lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, LV_FONT_DEFAULT);
 lv_disp_set_theme(dispp, theme);
+ui_Screen0_screen_init();
 ui_Screen1_screen_init();
 ui_Screen2_screen_init();
 ui_Screen3_screen_init();
 ui_Screen4_screen_init();
 ui____initial_actions0 = lv_obj_create(NULL);
-lv_disp_load_scr( ui_Screen1);
+lv_disp_load_scr( ui_Screen0);
 }

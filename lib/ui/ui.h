@@ -23,11 +23,35 @@ extern "C" {
 #endif
 
 #include "ui_helpers.h"
+#include "components/ui_comp.h"
+#include "components/ui_comp_hook.h"
 #include "ui_events.h"
+// SCREEN: ui_Screen0
+void ui_Screen0_screen_init(void);
+extern lv_obj_t *ui_Screen0;
+void ui_event_Button01_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button01;
+void ui_event_Button02_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button02;
+void ui_event_Button03_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button03;
+void ui_event_Button04_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button04;
+void ui_event_Button05_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button05;
+void ui_event_Button06_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button06;
+void ui_event_Button07_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button07;
+void ui_event_Button08_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button08;
+void ui_event_Button09_Button0( lv_event_t * e);
+extern lv_obj_t *ui_Button09;
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 extern lv_obj_t *ui_Screen1;
 extern lv_obj_t *ui_Header1;
+extern lv_obj_t *ui_BackLabel;
 extern lv_obj_t *ui_Header_Title1;
 extern lv_obj_t *ui_Header_Time1;
 extern lv_obj_t *ui_Arc_Group;
@@ -38,20 +62,13 @@ extern lv_obj_t *ui_Label_Celsius;
 void ui_event_Fan_Speed_Control( lv_event_t * e);
 extern lv_obj_t *ui_Fan_Speed_Control;
 extern lv_obj_t *ui_Label_Slider;
-void ui_event_Button1a( lv_event_t * e);
-extern lv_obj_t *ui_Button1a;
-extern lv_obj_t *ui_Button1b;
-void ui_event_Button1c( lv_event_t * e);
-extern lv_obj_t *ui_Button1c;
+void ui_event_Button1( lv_event_t * e);
+extern lv_obj_t *ui_Button1;
 // SCREEN: ui_Screen2
 void ui_Screen2_screen_init(void);
 extern lv_obj_t *ui_Screen2;
-void ui_event_Button2a( lv_event_t * e);
-extern lv_obj_t *ui_Button2a;
-extern lv_obj_t *ui_Button2b;
-void ui_event_Button2c( lv_event_t * e);
-extern lv_obj_t *ui_Button2c;
 extern lv_obj_t *ui_Header2;
+extern lv_obj_t *ui_BackLabel1;
 extern lv_obj_t *ui_Header_Time2;
 extern lv_obj_t *ui_Header_Title2;
 extern lv_obj_t *ui_Panel2_sensor1;
@@ -86,16 +103,14 @@ extern lv_obj_t *ui_Panel2_sensor8;
 extern lv_obj_t *ui_Bar2_value8;
 extern lv_obj_t *ui_Label2_value8;
 extern lv_obj_t *ui_Label2_name8;
+void ui_event_Button2( lv_event_t * e);
+extern lv_obj_t *ui_Button2;
 // SCREEN: ui_Screen3
 void ui_Screen3_screen_init(void);
 extern lv_obj_t *ui_Screen3;
-void ui_event_Button3a( lv_event_t * e);
-extern lv_obj_t *ui_Button3a;
-extern lv_obj_t *ui_Button3b;
-void ui_event_Button3c( lv_event_t * e);
-extern lv_obj_t *ui_Button3c;
 extern lv_obj_t *ui_Bar1;
 extern lv_obj_t *ui_Header3;
+extern lv_obj_t *ui_BackLabel2;
 extern lv_obj_t *ui_Header_Title3;
 extern lv_obj_t *ui_Header_Time3;
 extern lv_obj_t *ui_Bar2;
@@ -113,10 +128,13 @@ extern lv_obj_t *ui_TextAreaHubStatus;
 extern lv_obj_t *ui_TextAreaSyncStatus;
 extern lv_obj_t *ui_Button3_Refresh;
 extern lv_obj_t *ui_Label3_Refresh;
+void ui_event_Button3( lv_event_t * e);
+extern lv_obj_t *ui_Button3;
 // SCREEN: ui_Screen4
 void ui_Screen4_screen_init(void);
 extern lv_obj_t *ui_Screen4;
 extern lv_obj_t *ui_Header4;
+extern lv_obj_t *ui_BackLabel3;
 extern lv_obj_t *ui_Header_Title4;
 extern lv_obj_t *ui_Header_Time4;
 extern lv_obj_t *ui_Panel4_Kp;
@@ -132,11 +150,6 @@ extern lv_obj_t *ui_Panel4_In;
 extern lv_obj_t *ui_Label4_inplus;
 extern lv_obj_t *ui_Panel4_Out;
 extern lv_obj_t *ui_Label4_outplus;
-extern lv_obj_t *ui_Button4b;
-void ui_event_Button4a( lv_event_t * e);
-extern lv_obj_t *ui_Button4a;
-void ui_event_Button4c( lv_event_t * e);
-extern lv_obj_t *ui_Button4c;
 extern lv_obj_t *ui_Label4_Error;
 extern lv_obj_t *ui_Label4_Error_val;
 extern lv_obj_t *ui_Label4_Output;
@@ -151,6 +164,8 @@ extern lv_obj_t *ui_Label4_Iterm_val;
 extern lv_obj_t *ui_Label4_Output_val;
 extern lv_obj_t *ui_Label4_Pterm_val;
 extern lv_obj_t *ui_Label4_Dterm_val;
+void ui_event_Button4( lv_event_t * e);
+extern lv_obj_t *ui_Button4;
 extern lv_obj_t *ui____initial_actions0;
 
 
