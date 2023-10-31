@@ -51,9 +51,15 @@ QuickPID compressorPID(
 
 void setup() {
 
-    //Default is all 3 options disabled, AKA POWER_MODE_USB_IN_BUS_IN
-    M5.In_I2C.bitOff(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 0
-    // M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 1
+    USBSerial.begin();
+    // while (!USBSerial) {
+    // ; // wait for serial port to connect. Needed for native USB
+    // }
+    M5.begin();
+
+    //Default is just boost enabled (so can start from battery), AKA POWER_MODE_USB_IN_BUS_IN
+    // M5.In_I2C.bitOff(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 0
+    M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 1
 
     M5.In_I2C.bitOff(AW9523_ADDR, 0x02, 0b00000010, 100000L);  // BUS_OUT_EN = 0
     // M5.In_I2C.bitOn(AW9523_ADDR, 0x02, 0b00000010, 100000L);  // BUS_OUT_EN = 1
@@ -61,11 +67,7 @@ void setup() {
     M5.In_I2C.bitOff(AW9523_ADDR, 0x02, 0b00100000, 100000L);  // USB_OTG_EN = 0
     // M5.In_I2C.bitOn(AW9523_ADDR, 0x02, 0b00100000, 100000L);  // USB_OTG_EN = 1
 
-    USBSerial.begin();
-    while (!USBSerial) {
-    ; // wait for serial port to connect. Needed for native USB
-    }
-    M5.begin();
+
 
     Wire.begin(PIN_SDA_I2C_EXT, PIN_SCL_I2C_EXT, 400000);  //Init I2C_EXT
     notecardManager.begin(serialDisplay);
