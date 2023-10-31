@@ -86,8 +86,6 @@ void YottaModule::getType(){
 
 void YottaModule::init(){
     // Read the module name
-    ModbusRTUClient.begin(9600, SERIAL_8N1);
-
     USBSerial.println("Reading module name");
 
     if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
