@@ -52,14 +52,18 @@ QuickPID compressorPID(
 void setup() {
 
     USBSerial.begin();
+
+    // For DEBUG ONLY, otherwise comment out so it can boot without a USB cable
     // while (!USBSerial) {
-    // ; // wait for serial port to connect. Needed for native USB
+    // ; // wait for serial port to connect.
     // }
+
     M5.begin();
+    ModbusRTUClient.begin(9600, SERIAL_8N1);
 
     //Default is just boost enabled (so can start from battery), AKA POWER_MODE_USB_IN_BUS_IN
-    // M5.In_I2C.bitOff(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 0
-    M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 1
+    M5.In_I2C.bitOff(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 0
+    // M5.In_I2C.bitOn(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 1
 
     M5.In_I2C.bitOff(AW9523_ADDR, 0x02, 0b00000010, 100000L);  // BUS_OUT_EN = 0
     // M5.In_I2C.bitOn(AW9523_ADDR, 0x02, 0b00000010, 100000L);  // BUS_OUT_EN = 1
