@@ -9,17 +9,16 @@
 
 #include "rtc_helpers.h"
 #include "yotta_module.h"
+#include "relay_module.h"
 #include "notecard_manager.h"
 #include "globals.h"
 #include "config.h"
 #include "gui_helpers.h" 
 
+extern RelayModule relayModule;
 extern YottaModule yottaModule;
 extern NotecardManager notecardManager;
 extern QuickPID compressorPID;
-extern db_variables_t db_vars;
-extern qo_variables_t qo_vars;
-extern env_variables_t env_vars;
 
 extern bool nc_service_enable;
 extern bool nc_service_tick;

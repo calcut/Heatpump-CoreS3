@@ -128,6 +128,8 @@ void control(void * pvParameters){
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
         serialDisplay.printf("1 second debug print %d\n", millis());
+        relayModule.setRelays(relays);
+        relayModule.getRelays(relays);
 
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);

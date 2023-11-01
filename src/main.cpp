@@ -20,6 +20,7 @@
 #include <ui.h>
 
 #define YOTTA_MODULE_ID 0
+#define RELAY_MODULE_ID 1
 #define NOTECARD_FETCH_INTERVAL_MS (10 * 1000)
 
 #define NC_SYNC true
@@ -33,6 +34,7 @@
 RS485Class RS485(Serial2, PIN_RX_RS485, PIN_TX_RS485, PIN_DE_RS485, -1);
 NotecardManager notecardManager;
 YottaModule yottaModule(YOTTA_MODULE_ID);
+RelayModule relayModule(RELAY_MODULE_ID);
 
 uint32_t currentMs = millis();
 
@@ -54,11 +56,13 @@ void setup() {
     USBSerial.begin();
 
     // For DEBUG ONLY, otherwise comment out so it can boot without a USB cable
-    // while (!USBSerial) {
-    // ; // wait for serial port to connect.
-    // }
+    while (!USBSerial) {
+    ; // wait for serial port to connect.
+    }
 
     M5.begin();
+    USBSerial.printf("M5CoreS3 User Demo, Version: %s\r\n", DEMO_VERSION);
+
     ModbusRTUClient.begin(9600, SERIAL_8N1);
 
     //Default is just boost enabled (so can start from battery), AKA POWER_MODE_USB_IN_BUS_IN
@@ -76,7 +80,6 @@ void setup() {
     Wire.begin(PIN_SDA_I2C_EXT, PIN_SCL_I2C_EXT, 400000);  //Init I2C_EXT
     notecardManager.begin(serialDisplay);
 
-    USBSerial.printf("M5CoreS3 User Demo, Version: %s\r\n", DEMO_VERSION);
     M5.Display.setBrightness(60);
 
     lv_init();

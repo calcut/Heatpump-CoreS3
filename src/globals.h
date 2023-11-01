@@ -5,6 +5,10 @@
 
 #define TERMINAL_LOG_LENGTH 512
 
+// INTERNAL VARIABLES
+static bool relay_defaults[16];
+static bool relays[16];
+
 
 // DATABASE VARIABLES
 // These can be changed either on the device (e.g. GUI) or via the Notecard
@@ -61,6 +65,10 @@ typedef struct {
     float tw_flex_min = 20.0;
     float tw_flex_max = 40.0;
 } env_variables_t;
+
+extern db_variables_t db_vars;
+extern qo_variables_t qo_vars;
+extern env_variables_t env_vars;
 
 class SerialDisplay : public HWCDC
 //https://stackoverflow.com/questions/60972073/customizing-the-standard-serial-print-functions-in-arduino

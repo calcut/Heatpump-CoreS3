@@ -2,13 +2,10 @@
 #define RELAY_MODULE_H
 
 // If these don't work try adding 1 to the address
-#define MODULE_NAME_ADDR 0
-#define OUTPUTS_ADDR 12
-#define WATCHDOG_ADDR 8
-#define OUTPUT_DEFAULTS_ADDR 12
-#define OUTPUTS_ADDR 51
-
-
+#define RELAY_VERSION 0
+#define RELAY_WATCHDOG 8
+#define RELAY_OUTPUT_DEFAULTS 12
+#define RELAY_OUTPUTS 51
 
 
 #include <Arduino.h>
