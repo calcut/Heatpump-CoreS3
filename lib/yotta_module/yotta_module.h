@@ -3,6 +3,10 @@
 
 #define MODULE_NAME_ADDR 210
 
+#ifndef YOTTA_MODULE_ADDRESS
+#define YOTTA_MODULE_ADDRESS 0
+#endif
+
 #include <Arduino.h>
 #include <ArduinoModbus.h>
 
