@@ -3,53 +3,35 @@
 
 #include <M5Unified.h>
 
-#include <QuickPID.h>
 #include <lvgl.h>
 #include <driver/pcnt.h> //ESP32 Pulse counter
 
 #include "rtc_helpers.h"
-#include "yotta_module.h"
-#include "relay_module.h"
+
+#include "state_machine.h"
+
 #include "notecard_manager.h"
-#include "globals.h"
+
 #include "config.h"
 #include "gui_helpers.h" 
 
-extern RelayModule relayModule;
-extern YottaModule yottaModule;
 extern NotecardManager notecardManager;
-extern QuickPID compressorPID;
 
 extern bool nc_service_enable;
 extern bool nc_service_tick;
 
 void setup_rtos_tasks(void);
 
-bool check_limits(void);
 
-void poll(void * pvParameters);
+void pollInputs(void * pvParameters);
 void notecard_time_sync(void * pvParameters);
 void notecard_service(void * pvParameters);
 void control(void * pvParameters);
-void state_machine(void * pvParameters);
+void runStateMachine(void * pvParameters);
 void gui_service(void * pvParameters);
 void read_pulses(void *pvParameters);
+void computePID(void *pvParameters);
 
-void standby_mode(void);
-void discharging_mode(void);
-void charging_mode(void);
-void defrost_mode(void);
-
-
-//These might move into the module class
-void open_evaporator_valve(void);
-void close_evaporator_valve(void);
-void open_defrost_valve(void);
-void close_defrost_valve(void);
-void set_reversing_valve_forward(void);
-void set_reversing_valve_reverse(void);
-void set_compressor_speed(float percent); 
-void set_fan_speed(float percent);
 
 // enumerate modes for the heat pump
 // standby: no heating or cooling

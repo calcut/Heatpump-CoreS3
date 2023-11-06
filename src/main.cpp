@@ -19,7 +19,6 @@
 // #include "App.h"
 #include <ui.h>
 
-#define YOTTA_MODULE_ID 0
 #define RELAY_MODULE_ID 1
 #define NOTECARD_FETCH_INTERVAL_MS (10 * 1000)
 
@@ -33,7 +32,7 @@
 
 RS485Class RS485(Serial2, PIN_RX_RS485, PIN_TX_RS485, PIN_DE_RS485, -1);
 NotecardManager notecardManager;
-YottaModule yottaModule(YOTTA_MODULE_ID);
+// YottaModule yottaModule(YOTTA_MODULE_ID);
 RelayModule relayModule(RELAY_MODULE_ID);
 
 uint32_t currentMs = millis();
@@ -56,9 +55,9 @@ void setup() {
     USBSerial.begin();
 
     // For DEBUG ONLY, otherwise comment out so it can boot without a USB cable
-    while (!USBSerial) {
-    ; // wait for serial port to connect.
-    }
+    // while (!USBSerial) {
+    // ; // wait for serial port to connect.
+    // }
 
     M5.begin();
     USBSerial.printf("M5CoreS3 User Demo, Version: %s\r\n", DEMO_VERSION);
