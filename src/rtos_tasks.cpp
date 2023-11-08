@@ -4,14 +4,13 @@ SemaphoreHandle_t nc_mutex = xSemaphoreCreateMutex();
 
 void setupRtos(void){
 
-    xTaskCreate(
-        timeSyncNotecard, // task function
-        "Notecard Time Sync", // task name
-        32768, // stack size in bytes
-        NULL, // pointer to parameters
-        1, // priority
-        NULL); // out pointer to task handle
+    #ifdef USE_NOTECARD
+    notecardManager.begin(serialDisplay);
+    #endif
 
+    #ifdef USE_GUI
+    setupGui();
+    #endif
 
     xTaskCreate(
         computePID, // task function
@@ -28,7 +27,16 @@ void setupRtos(void){
         NULL, // pointer to parameters
         1, // priority
         NULL); // out pointer to task handle
+    
+    xTaskCreate(
+        readFlowMeters, // task function
+        "Read Flow Meters", // task name
+        1024, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
 
+#ifdef USE_NOTECARD
     xTaskCreate(
         serviceNotecard, // task function
         "Notecard Service", // task name
@@ -36,6 +44,15 @@ void setupRtos(void){
         NULL, // pointer to parameters
         1, // priority
         NULL); // out pointer to task handle
+
+    xTaskCreate(
+        timeSyncNotecard, // task function
+        "Notecard Time Sync", // task name
+        32768, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
+#endif
 
 #ifdef USE_GUI
     xTaskCreate(
@@ -47,14 +64,7 @@ void setupRtos(void){
         NULL); // out pointer to task handle
 #endif
 
-    xTaskCreate(
-        readFlowMeters, // task function
-        "Read Flow Meters", // task name
-        1024, // stack size in bytes
-        NULL, // pointer to parameters
-        1, // priority
-        NULL); // out pointer to task handle
-
+#ifdef DEBUG
     xTaskCreate(
         debugTask, // task function
         "Debug Task", // task name
@@ -62,7 +72,30 @@ void setupRtos(void){
         NULL, // pointer to parameters
         1, // priority
         NULL); // out pointer to task handle
+#endif
+}
 
+void runStateMachine(void * pvParameters){
+    while(1){
+        stateMachine.run();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    }
+}
+
+void computePID(void * pvParameters){
+    while(1){
+        stateMachine.compressorPID.Compute();
+        // vTaskDelay(100 / portTICK_PERIOD_MS);
+    }
+}
+
+void readFlowMeters(void *pvParameters)
+{
+    while (1)
+    {
+        stateMachine.inputs.serviceFlowMeters();
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+    }
 }
 
 #ifdef USE_GUI
@@ -74,13 +107,7 @@ void serviceGUI(void * pvParameters){
 }
 #endif
 
-void runStateMachine(void * pvParameters){
-    while(1){
-        stateMachine.run();
-        vTaskDelay(100 / portTICK_PERIOD_MS);
-    }
-}
-
+#ifdef USE_NOTECARD
 void serviceNotecard(void * pvParameters){
     while(1){
 
@@ -127,7 +154,9 @@ void timeSyncNotecard(void * pvParameters){
     vTaskDelay(notecardManager.timeSyncInterval_s*1000 / portTICK_PERIOD_MS);
   }
 }
+#endif
 
+#ifdef DEBUG
 void debugTask(void * pvParameters){
     while(1){
         // if (db_vars.enabled == true){
@@ -138,22 +167,6 @@ void debugTask(void * pvParameters){
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
-    
 }
+#endif
 
-void computePID(void * pvParameters){
-    while(1){
-        stateMachine.compressorPID.Compute();
-        // vTaskDelay(100 / portTICK_PERIOD_MS);
-    }
-}
-
-
-void readFlowMeters(void *pvParameters)
-{
-    while (1)
-    {
-        stateMachine.inputs.serviceFlowMeters();
-        vTaskDelay(500 / portTICK_PERIOD_MS);
-    }
-}

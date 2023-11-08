@@ -1,6 +1,11 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
+// If DEBUG is defined, it won't boot without a USB cable
+#define DEBUG
+#define USE_GUI
+#define USE_NOTECARD
+
 // From Demo
 #define GC0308_ADDR  0x21
 #define LTR553_ADDR  0x23
@@ -30,10 +35,6 @@
 #define POWER_MODE_USB_IN_BUS_OUT 1
 #define POWER_MODE_USB_OUT_BUS_IN 2
 #define POWER_MODE_USB_OUT_BUS_OUT 3
-
-#define MIC_BUF_SIZE 256
-
-#define MONKEY_TEST_ENABLE 0
 
 //Customised
 #define PIN_SDA_I2C_SYS 12

@@ -1,13 +1,19 @@
 #ifndef RTOS_TASKS_H
 #define RTOS_TASKS_H
 
+// #define USE_GUI
+// #define USE_NOTECARD
+
 #include <M5Unified.h>
 #include <lvgl.h>
 
-#include "rtc_helpers.h"
-#include "state_machine.h"
-#include "notecard_manager.h"
 #include "config.h"
+#include "hal_coreS3.h"
+#include "state_machine.h"
+
+#ifdef USE_NOTECARD
+#include "notecard_manager.h"
+#endif
 
 #ifdef USE_GUI
 #include "gui_helpers.h" 
