@@ -1,8 +1,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#define DEMO_VERSION "0.5"
-
 // From Demo
 #define GC0308_ADDR  0x21
 #define LTR553_ADDR  0x23
@@ -51,6 +49,20 @@
 #define PIN_TX0 43
 
 #define PIN_PULSE_COUNT 8
+
+#define RELAY_MODULE_ID 1
+#define NOTECARD_FETCH_INTERVAL_MS (10 * 1000)
+
+#define NC_SYNC true
+#define NC_MODE "continuous"
+#define NC_INBOUND 1
+#define NC_OUTBOUND 1
+#define NC_UID "dwt.ac.uk.heatpump"
+
+#define FLOAT_DECIMALS 1
+
+#define TERMINAL_LOG_LENGTH 512
+
 
 
 #endif  // __CONFIG_H
