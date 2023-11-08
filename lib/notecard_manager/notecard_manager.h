@@ -59,7 +59,15 @@ class NotecardManager {
         char hub_sync_status[64];
         int epoch_time = 0;
         int utc_offset_minutes = 0;
+        bool serviceEnabled = false;
+        bool serviceTick = false;
+        int serviceInterval_s = 10;
+        int timeSyncInterval_s = 10;
+
 
 
 };
+
+extern NotecardManager notecardManager;
+
 #endif

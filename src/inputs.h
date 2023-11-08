@@ -2,6 +2,12 @@
 #define INPUTS_H
 
 #include "yotta_module.h"
+#include <driver/pcnt.h> //ESP32 Pulse counter
+
+#ifndef PIN_PULSE_COUNT
+#define PIN_PULSE_COUNT 8
+#endif
+
 
 class Inputs {
 public:
@@ -28,7 +34,7 @@ public:
     };
 
     struct FlowData {
-        float Fl1_DHW;
+        float Fl1_DHW_lpm;
         float Fl2_Solar;
     };
 
@@ -38,11 +44,17 @@ public:
         float P3_Fan;
     };
 
+    struct SpeedData {
+        float S1_Compressor;
+        float P2_Fan;
+    };
+
     struct SensorData {
         TemperatureData temperatureData;
         PressureData pressureData;
         FlowData flowData;
         PowerData powerData;
+        SpeedData speedData;
     };
 
     enum HandOffAuto {
@@ -62,13 +74,22 @@ public:
         ManualState manualState;
     };
 
-    Inputs();
-    SensorData pollSensorData(void);
+    Inputs(void);
+    void initFlowMeters(void);
+    void serviceFlowMeters(void);
+    void pollSensorData(void);
+    SensorData getSensorData(void);
     PhysicalControls getPhysicalControls(void);
+
 private:
     YottaModule yottaModule;
     SensorData sensorData;
     PhysicalControls physicalControls;
+
+    int previousPulseCount = 0;
+    int previousPulseTime = 0;
+    int16_t counterVal;
+    int flowPPS;
 };
 extern Inputs inputs;
 

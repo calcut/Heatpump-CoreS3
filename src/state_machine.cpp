@@ -17,7 +17,8 @@ StateMachine::StateMachine(void)
 void StateMachine::run(void){
 
     previousState = currentState;
-    sensorData = inputs.pollSensorData();
+    inputs.pollSensorData();
+    sensorData = inputs.getSensorData();
     physicalControls = inputs.getPhysicalControls();
 
     if(enabled == false){

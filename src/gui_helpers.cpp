@@ -2,7 +2,11 @@
 
 char text_buffer[64];
 
-void setup_gui_timers(){
+void setupGui(){
+
+    lv_init();
+    m5gfx_lvgl_init();
+    ui_init();
 
     lv_timer_t * timer_datetime = lv_timer_create(display_date_time_labels, 1000, NULL);
     lv_timer_t * timer_notecard_info = lv_timer_create(display_notecard_info, 1000, NULL);
@@ -16,10 +20,10 @@ void setup_gui_timers(){
 
 void nc_info_screen_event_cb(lv_event_t * event){
     if(event->code == LV_EVENT_SCREEN_LOAD_START){
-        nc_service_enable = true;
+        notecardManager.serviceEnabled = true;
     }
     else if(event->code == LV_EVENT_SCREEN_UNLOAD_START){
-        nc_service_enable = false;
+        notecardManager.serviceEnabled = false;
     }
 }
 
@@ -27,38 +31,40 @@ void display_pid_info(lv_timer_t * timer){
     if (lv_scr_act() == ui_Screen4){
 
         Serial.printf("PID info poll\n");
+        Inputs::SensorData sensors = inputs.getSensorData();
 
-        sprintf(text_buffer, "%.3g", compressorPID.GetKp());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKp());
         lv_label_set_text(ui_Label4_Kp_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", compressorPID.GetKi());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKi());
         lv_label_set_text(ui_Label4_Ki_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", compressorPID.GetKd());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKd());
         lv_label_set_text(ui_Label4_Kd_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", compressorPID.GetPterm());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetPterm());
         lv_label_set_text(ui_Label4_Pterm_val, text_buffer);
 
         //This is just the most recent term, not the integrated history
         // sprintf(text_buffer, "%.3g", compressorPID.GetIterm()); 
 
-        sprintf(text_buffer, "%.3g", compressorPID.GetOutputSum()); //include history
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetOutputSum()); //include history
         lv_label_set_text(ui_Label4_Iterm_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", compressorPID.GetDterm());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetDterm());
         lv_label_set_text(ui_Label4_Dterm_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", qo_vars.compressor_read_speed);
+        sprintf(text_buffer, "%.3g", sensors.speedData.S1_Compressor);
         lv_label_set_text(ui_Label4_Output_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", db_vars.dhw_setpoint);
+        sprintf(text_buffer, "%.3g", *stateMachine.compressorPIDsetpoint);
         lv_label_set_text(ui_Label4_Setpoint_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", qo_vars.tc[0]);
+        sprintf(text_buffer, "%.3g", *stateMachine.compressorPIDinput);
         lv_label_set_text(ui_Label4_Input_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", db_vars.dhw_setpoint - qo_vars.tc[0]);
+        sprintf(text_buffer, "%.3g", *stateMachine.compressorPIDsetpoint
+                                     - *stateMachine.compressorPIDinput);
         lv_label_set_text(ui_Label4_Error_val, text_buffer);
 
     }
@@ -106,7 +112,7 @@ void display_notecard_info(lv_timer_t * timer){
         lv_textarea_set_text(ui_TextAreaHubStatus, notecardManager.hub_status);
         lv_textarea_set_text(ui_TextAreaSyncStatus, notecardManager.hub_sync_status);
 
-        if (nc_service_tick){
+        if (notecardManager.serviceTick){
             lv_obj_clear_state(ui_Button3_Refresh, LV_STATE_CHECKED);
             lv_obj_add_state(ui_Button3_Refresh, LV_STATE_DISABLED);
         } else {
@@ -150,10 +156,10 @@ void display_sensor_info(lv_timer_t * timer){
 
         // loop over all ui_Label2_valueX objects and update with new values
         for (int i = 0; i < 6; i++){
-            sprintf(text_buffer, "%0.1f C", qo_vars.tc[i]);
+            sprintf(text_buffer, "%0.1f C", 99.9);
             // dtostrf(qo_vars.tc[i], 0, FLOAT_DECIMALS, buffer);
             lv_label_set_text(tc_values[i], text_buffer);
-            lv_bar_set_value(tc_bars[i], qo_vars.tc[i], LV_ANIM_OFF);
+            lv_bar_set_value(tc_bars[i], 99.9, LV_ANIM_OFF);
         }
     }
 }
@@ -189,5 +195,5 @@ void display_date_time_labels(lv_timer_t * timer){
 }
 
 void display_log(lv_timer_t * timer){
-    lv_textarea_set_text(ui_TextAreaLog, log_display_buffer);
+    lv_textarea_set_text(ui_TextAreaLog, serialDisplay.logBuffer);
 }

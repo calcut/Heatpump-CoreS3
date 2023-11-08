@@ -3,16 +3,14 @@
 
 #include <lvgl.h>
 #include <ui.h>
-#include <QuickPID.h>
+#include <M5GFX.h>
+#include <m5gfx_lvgl.h>
+
 #include "notecard_manager.h"
-#include "globals.h"
+#include "state_machine.h"
+#include "hal_coreS3.h" //for serialDisplay
 
-extern NotecardManager notecardManager;
-extern QuickPID compressorPID;
-extern bool nc_service_enable;
-extern bool nc_service_tick;
-
-void setup_gui_timers(void);
+void setupGui(void);
 void display_notecard_info(lv_timer_t * timer);
 void display_sensor_info(lv_timer_t * timer);
 void display_pid_info(lv_timer_t * timer);

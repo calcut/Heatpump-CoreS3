@@ -21,6 +21,8 @@ public:
     bool enabled = false;
 
     QuickPID compressorPID;
+    Inputs inputs;
+    Outputs outputs;
 
     State currentState;
     State previousState;
@@ -46,18 +48,15 @@ public:
     float compressorSpeedIdle = 20.0; //percent
     float fanSpeedEnabled = 50.0; //percent
 
-
-
-private:
-    Inputs inputs;
-    Outputs outputs;
-
-    float defrostTimer;
-    float defrostInterval;
-
     float* compressorPIDinput = &sensorData.temperatureData.Tr1_CompressorOut;
     float* compressorPIDoutput;
     float* compressorPIDsetpoint;
+
+private:
+
+
+    float defrostTimer;
+    float defrostInterval;
 
     bool checkLimits(void);
     void standbyState(void);

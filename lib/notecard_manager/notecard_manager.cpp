@@ -1,5 +1,7 @@
 #include "notecard_manager.h"
 
+NotecardManager notecardManager;
+
 void envVarManagerCb(const char *var, const char *val, void *userCtx)
 {
     // Cast the userCtx to the appropriate type.
