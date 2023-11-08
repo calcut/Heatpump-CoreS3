@@ -4,13 +4,13 @@ Inputs inputs;
 
 void Inputs::pollSensorData(void){
     sensorData.temperatureData.Tr1_CompressorOut = 1.0;
-    USBSerial.print("Polling sensor data\n");
+    // USBSerial.print("Polling sensor data\n");
 }
 
 void Inputs::pollPhysicalControls(void){
     physicalControls.handOffAuto = HAND;
     physicalControls.manualState = CHARGING;
-    USBSerial.print("Polling physical controls\n");
+    // USBSerial.print("Polling physical controls\n");
 }
 
     Inputs::Inputs(void)
@@ -32,9 +32,9 @@ void Inputs::serviceFlowMeters(void){
     
 }
 
-void Inputs::initFlowMeters(void){
+void Inputs::initFlowMeters(int pin){
     pcnt_config_t pcntCh1 = {
-        .pulse_gpio_num = PIN_PULSE_COUNT,
+        .pulse_gpio_num = pin,
         .ctrl_gpio_num = PCNT_PIN_NOT_USED,
         .lctrl_mode = PCNT_MODE_KEEP,
         .hctrl_mode = PCNT_MODE_KEEP,
@@ -47,5 +47,5 @@ void Inputs::initFlowMeters(void){
     };
     pcnt_unit_config(&pcntCh1);
     pcnt_counter_clear(PCNT_UNIT_0);
-    USBSerial.printf("Flow meter initialised on pin %d\n", PIN_PULSE_COUNT);
+    USBSerial.printf("Flow meter initialised on pin %d\n", pin);
 }

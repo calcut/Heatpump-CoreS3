@@ -6,6 +6,11 @@ void setupRtos(void){
 
     #ifdef USE_NOTECARD
     notecardManager.begin(serialDisplay);
+    if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
+                             myEnvVarCb, &envVars) != NEVM_SUCCESS)
+    {
+    USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
+    }
     #endif
 
     #ifdef USE_GUI
@@ -31,7 +36,7 @@ void setupRtos(void){
     xTaskCreate(
         readFlowMeters, // task function
         "Read Flow Meters", // task name
-        1024, // stack size in bytes
+        16384, // stack size in bytes
         NULL, // pointer to parameters
         1, // priority
         NULL); // out pointer to task handle
@@ -78,19 +83,20 @@ void setupRtos(void){
 void runStateMachine(void * pvParameters){
     while(1){
         stateMachine.run();
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
     }
 }
 
 void computePID(void * pvParameters){
     while(1){
         stateMachine.compressorPID.Compute();
-        // vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }
 
 void readFlowMeters(void *pvParameters)
 {
+    inputs.initFlowMeters(PIN_PULSE_COUNT);   
     while (1)
     {
         stateMachine.inputs.serviceFlowMeters();

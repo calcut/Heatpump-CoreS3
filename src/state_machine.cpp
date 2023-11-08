@@ -10,6 +10,11 @@ StateMachine::StateMachine(void)
         compressorPIDsetpoint // setpoint
     )
     {
+        tunePID();
+}
+
+void StateMachine::tunePID(void){
+    compressorPID.SetTunings(otaVars.compressorPID_P, otaVars.compressorPID_I, otaVars.compressorPID_D);
 }
 
 void StateMachine::run(void){

@@ -11,7 +11,7 @@ public:
     enum State {
         STANDBY,
         CHARGING,
-        DISCHARGING,
+        DISCHARGING, 
         DEFROST,
         ERROR
     };
@@ -32,7 +32,7 @@ public:
 
     Inputs::PhysicalControls physicalControls;
 
-    float* demandSensor = &sensorData.temperatureData.Tr1_CompressorOut;
+    float* demandSensor = &sensorData.temperatureData.Tw2_DHWFlow;
     float* defrostSensor = &sensorData.temperatureData.Ta1_EvaporatorIn;
     float* flexStoreSensor = &sensorData.temperatureData.Tw3_FlexStore;
 
@@ -45,13 +45,18 @@ public:
         float compressorSpeedIdle = 20.0; //percent
         float fanSpeedEnabled = 50.0; //percent
         float defrostInterval_s = 60;
+        float compressorPID_P = 0.1;
+        float compressorPID_I = 0.0;
+        float compressorPID_D = 0.0;
     };
     OTAVars otaVars;
 
     float flexStoreThreshold = 20.0;
-    float* compressorPIDinput = &sensorData.temperatureData.Tr1_CompressorOut;
+    float* compressorPIDinput = &sensorData.temperatureData.Tw2_DHWFlow;
+    float* compressorPIDsetpoint = &otaVars.demandThreshold;
     float* compressorPIDoutput;
-    float* compressorPIDsetpoint;
+
+
 
 private:
 
@@ -62,6 +67,7 @@ private:
     void dischargingState(void);
     void chargingState(void);
     void defrostState(void);
+    void tunePID(void);
     void compressorManualSpeed(float speed_percent);
 };
 

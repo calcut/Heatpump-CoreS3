@@ -6,7 +6,7 @@
 #include "state_machine.h"
 
 #ifdef USE_NOTECARD
-#include "notecard_manager.h"
+#include "notecard_context.h"
 #endif
 
 #ifdef USE_GUI

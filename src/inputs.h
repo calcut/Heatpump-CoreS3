@@ -4,11 +4,6 @@
 #include "yotta_module.h"
 #include <driver/pcnt.h> //ESP32 Pulse counter
 
-#ifndef PIN_PULSE_COUNT
-#define PIN_PULSE_COUNT 8
-#endif
-
-
 class Inputs {
 public:
 
@@ -75,7 +70,7 @@ public:
     };
 
     Inputs(void);
-    void initFlowMeters(void);
+    void initFlowMeters(int pin);
     void serviceFlowMeters(void);
     void pollSensorData(void);
     void pollPhysicalControls(void);
