@@ -31,11 +31,11 @@ class NotecardManager {
 
     private:
         Notecard notecard;
-        NotecardEnvVarManager *envVarManager = NULL;
         uint32_t env_modified_time = 0;
         
     public:
         NotecardManager();
+        NotecardEnvVarManager *envVarManager = NULL;
         void begin(Stream &serial_stream);
         void init(const char *uid, const char *mode, int inbound, int outbound, bool sync);
         void hubGet();

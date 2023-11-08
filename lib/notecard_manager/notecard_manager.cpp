@@ -2,51 +2,6 @@
 
 NotecardManager notecardManager;
 
-void envVarManagerCb(const char *var, const char *val, void *userCtx)
-{
-    // Cast the userCtx to the appropriate type.
-    EnvVarCache *cache = (EnvVarCache *)userCtx;
-
-    USBSerial.print("\nCallback received variable \"");
-    USBSerial.print(var);
-    USBSerial.print("\" with value \"");
-    USBSerial.print(val);
-    USBSerial.print("\" and context 0x");
-    USBSerial.print((unsigned long)userCtx, HEX);
-    USBSerial.println(".");
-
-
-    if (strcmp(var, "_sn") == 0) {
-        strlcpy(cache->serial_number, val, sizeof(cache->serial_number));
-    }
-    else if (strcmp(var, "string_a") == 0) {
-        strlcpy(cache->string_a, val, sizeof(cache->string_a));
-    }
-    else if (strcmp(var, "mode") == 0) {
-        cache->mode = atoi(val);
-    }
-    else if (strcmp(var, "set_point") == 0) {
-        cache->set_point = atof(val);
-    }
-    else if (strcmp(var, "comp_speed_max") == 0) {
-        cache->comp_speed_max = atof(val);
-    }
-    else if (strcmp(var, "comp_speed_min") == 0) {
-        cache->comp_speed_min = atof(val);
-    }
-    else if (strcmp(var, "fan_speed_max") == 0) {
-        cache->fan_speed_max = atof(val);
-    }
-    else if (strcmp(var, "fan_speed_min") == 0) {
-        cache->fan_speed_min = atof(val);
-    }
-    else if (strcmp(var, "pump_speed_max") == 0) {
-        cache->fan_speed_max = atof(val);
-    }
-    else if (strcmp(var, "pump_speed_min") == 0) {
-        cache->fan_speed_min = atof(val);
-    }
-}
 
 NotecardManager::NotecardManager(){}
 
@@ -58,10 +13,6 @@ void NotecardManager::begin(Stream &serial_stream){
     if (envVarManager == NULL) {
         // Handle failed allocation.
         USBSerial.println("Failed to allocate NotecardEnvVarManager.");
-        }
-    if (NotecardEnvVarManager_setEnvVarCb(envVarManager, envVarManagerCb, &envVarCache) != NEVM_SUCCESS)
-    {
-    USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
     }
 }
 
