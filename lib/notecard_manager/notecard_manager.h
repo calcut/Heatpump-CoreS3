@@ -1,12 +1,13 @@
 #ifndef NOTECARD_MANAGER_H
 #define NOTECARD_MANAGER_H
 
+#ifndef DFU_ENABLE
 #define DFU_ENABLE false
+#endif
 
 #include <Arduino.h>
 #include <Notecard.h>
 #include "NotecardEnvVarManager.h"
-// #include <ArduinoJson.h>
 
 // A struct to cache the values of environment variables.
 typedef struct {
@@ -22,7 +23,6 @@ typedef struct {
     float pump_speed_min = 0.0;
 
 } EnvVarCache;
-
 
 void envVarManagerCb(const char *var, const char *val, void *userCtx);
 

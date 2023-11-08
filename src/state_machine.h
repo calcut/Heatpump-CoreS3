@@ -33,30 +33,29 @@ public:
     Inputs::PhysicalControls physicalControls;
 
     float* demandSensor = &sensorData.temperatureData.Tr1_CompressorOut;
-    float demandThreshold = 0.0;
-    float demandHysteresis = 1.0;
-
     float* defrostSensor = &sensorData.temperatureData.Ta1_EvaporatorIn;
-    float defrostThreshold = 5.0;
-
     float* flexStoreSensor = &sensorData.temperatureData.Tw3_FlexStore;
+
+    struct OTAVars{
+        float demandThreshold = 0.0;
+        float demandHysteresis = 1.0;
+        float defrostThreshold = 5.0;
+        float flexStoreLow = 20.0;
+        float flexStoreHigh = 30.0;
+        float compressorSpeedIdle = 20.0; //percent
+        float fanSpeedEnabled = 50.0; //percent
+        float defrostInterval_s = 60;
+    };
+    OTAVars otaVars;
+
     float flexStoreThreshold = 20.0;
-    float flexStoreLow = 20.0;
-    float flexStoreHigh = 30.0;
-
-
-    float compressorSpeedIdle = 20.0; //percent
-    float fanSpeedEnabled = 50.0; //percent
-
     float* compressorPIDinput = &sensorData.temperatureData.Tr1_CompressorOut;
     float* compressorPIDoutput;
     float* compressorPIDsetpoint;
 
 private:
 
-
-    float defrostTimer;
-    float defrostInterval;
+    float defrostTimer = 0.0;
 
     bool checkLimits(void);
     void standbyState(void);

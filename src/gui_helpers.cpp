@@ -31,7 +31,7 @@ void display_pid_info(lv_timer_t * timer){
     if (lv_scr_act() == ui_Screen4){
 
         Serial.printf("PID info poll\n");
-        Inputs::SensorData sensors = inputs.getSensorData();
+        Inputs::SensorData sensors = inputs.sensorData;
 
         sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKp());
         lv_label_set_text(ui_Label4_Kp_val, text_buffer);

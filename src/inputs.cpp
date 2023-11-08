@@ -2,20 +2,15 @@
 
 Inputs inputs;
 
-struct Inputs::SensorData Inputs::getSensorData(void){
-    sensorData.temperatureData.Tr1_CompressorOut = 1.0;
-    return sensorData;
-}
-
 void Inputs::pollSensorData(void){
     sensorData.temperatureData.Tr1_CompressorOut = 1.0;
     USBSerial.print("Polling sensor data\n");
 }
 
-struct Inputs::PhysicalControls Inputs::getPhysicalControls(void){
+void Inputs::pollPhysicalControls(void){
     physicalControls.handOffAuto = HAND;
     physicalControls.manualState = CHARGING;
-    return physicalControls;
+    USBSerial.print("Polling physical controls\n");
 }
 
     Inputs::Inputs(void)

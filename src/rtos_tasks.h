@@ -1,12 +1,6 @@
 #ifndef RTOS_TASKS_H
 #define RTOS_TASKS_H
 
-// #define USE_GUI
-// #define USE_NOTECARD
-
-#include <M5Unified.h>
-#include <lvgl.h>
-
 #include "config.h"
 #include "hal_coreS3.h"
 #include "state_machine.h"

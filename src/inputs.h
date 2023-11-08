@@ -78,13 +78,12 @@ public:
     void initFlowMeters(void);
     void serviceFlowMeters(void);
     void pollSensorData(void);
-    SensorData getSensorData(void);
-    PhysicalControls getPhysicalControls(void);
+    void pollPhysicalControls(void);
+    SensorData sensorData;
+    PhysicalControls physicalControls;
 
 private:
     YottaModule yottaModule;
-    SensorData sensorData;
-    PhysicalControls physicalControls;
 
     int previousPulseCount = 0;
     int previousPulseTime = 0;
