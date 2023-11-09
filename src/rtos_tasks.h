@@ -21,7 +21,5 @@ void debugTask(void * pvParameters);
 void runStateMachine(void * pvParameters);
 void serviceGUI(void * pvParameters);
 void readFlowMeters(void *pvParameters);
-void computePID(void *pvParameters);
-
 
 #endif

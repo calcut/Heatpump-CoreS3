@@ -25,14 +25,6 @@ void setupRtos(void){
     #endif
 
     xTaskCreate(
-        computePID, // task function
-        "Compute PID ", // task name
-        16384, // stack size in bytes
-        NULL, // pointer to parameters
-        1, // priority
-        NULL); // out pointer to task handle
-
-    xTaskCreate(
         runStateMachine, // task function
         "State Machine", // task name
         16384, // stack size in bytes
@@ -96,7 +88,7 @@ void runStateMachine(void * pvParameters){
 
 void computePID(void * pvParameters){
     while(1){
-        stateMachine.compressorPID.Compute();
+        
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }

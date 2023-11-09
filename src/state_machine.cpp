@@ -26,6 +26,8 @@ void StateMachine::run(void){
     inputs.pollPhysicalControls();
     sensorData = inputs.sensorData;
     physicalControls = inputs.physicalControls;
+    
+    stateMachine.compressorPID.Compute();
 
     if(enabled == false){
         if(currentState != ERROR){
