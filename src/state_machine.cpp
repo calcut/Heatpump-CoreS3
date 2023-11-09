@@ -14,7 +14,9 @@ StateMachine::StateMachine(void)
 }
 
 void StateMachine::tunePID(void){
-    compressorPID.SetTunings(otaVars.compressorPID_P, otaVars.compressorPID_I, otaVars.compressorPID_D);
+    compressorPID.SetTunings(envVars["compressorPID_P"],
+                             envVars["compressorPID_I"],
+                             envVars["compressorPID_D"]);
 }
 
 void StateMachine::run(void){
@@ -39,14 +41,15 @@ void StateMachine::run(void){
         return;
     }
 
-    if(*demandSensor > otaVars.demandThreshold + otaVars.demandHysteresis){
+
+    if(*demandSensor > envVars["demandThreshold"] + envVars["demandHysteresis"]){
         //Demand sensor is above threshold, no heating requested   
         currentState = STANDBY;
         return;
     }
 
     if(currentState == STANDBY && 
-        *demandSensor > otaVars.demandThreshold - otaVars.demandHysteresis){
+        *demandSensor > envVars["demandThreshold"] - envVars["demandHysteresis"]){
         //Demand sensor is still above the lower threshold, no heating requested
         //This implements the hysteresis
         return;
@@ -58,7 +61,7 @@ void StateMachine::run(void){
         return;
     }
 
-    if(*defrostSensor < otaVars.defrostThreshold){
+    if(*defrostSensor < envVars["defrostThreshold"]){
         //Ambient temperature is below defrost threshold
         currentState = DEFROST;
         defrostState();
@@ -67,14 +70,14 @@ void StateMachine::run(void){
 
     if(*flexStoreSensor > flexStoreThreshold){
         //Flex store is above threshold
-        flexStoreThreshold = otaVars.flexStoreLow;
+        flexStoreThreshold = envVars["flexStoreLow"];
         currentState = DISCHARGING;
         dischargingState();
         return;
     }
     if(*flexStoreSensor < flexStoreThreshold){
         //Flex store is below threshold
-        flexStoreThreshold = otaVars.flexStoreHigh;
+        flexStoreThreshold = envVars["flexStoreHigh"];
         currentState = CHARGING;
         chargingState();
         return;
@@ -86,7 +89,7 @@ void StateMachine::standbyState(void){
         USBSerial.printf("Entering standby mode\n");
         
         USBSerial.printf("Setting fan speed = %f\n", 0);
-        outputs.setFanSpeed(otaVars.fanSpeedEnabled);
+        outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
         compressorManualSpeed(0);
         outputs.setEvaporatorValve(outputs.OPEN);
@@ -104,10 +107,10 @@ void StateMachine::dischargingState(void){
     if (previousState != DISCHARGING){
         USBSerial.printf("Entering discharging mode\n");
 
-        USBSerial.printf("Setting fan speed = %f\n", otaVars.fanSpeedEnabled);
-        outputs.setFanSpeed(otaVars.fanSpeedEnabled);
+        USBSerial.printf("Setting fan speed = %f\n", envVars["fanSpeedEnabled"]);
+        outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
-        compressorManualSpeed(otaVars.compressorSpeedIdle);
+        compressorManualSpeed(envVars["compressorSpeedIdle"]);
         outputs.setEvaporatorValve(outputs.CLOSED);
         outputs.setEvaporatorBypassValve(outputs.OPEN);
         outputs.setReversingValve(outputs.REVERSE);
@@ -123,10 +126,10 @@ void StateMachine::chargingState(void){
     if (previousState != CHARGING){
         USBSerial.printf("Entering charging state");
         
-        USBSerial.printf("Setting fan speed = %f\n", otaVars.fanSpeedEnabled);
-        outputs.setFanSpeed(otaVars.fanSpeedEnabled);
+        USBSerial.printf("Setting fan speed = %f\n", envVars["fanSpeedEnabled"]);
+        outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
-        compressorManualSpeed(otaVars.compressorSpeedIdle);
+        compressorManualSpeed(envVars["compressorSpeedIdle"]);
         outputs.setEvaporatorValve(outputs.OPEN);
         outputs.setEvaporatorBypassValve(outputs.CLOSED);
         outputs.setReversingValve(outputs.FORWARD);
@@ -143,10 +146,10 @@ void StateMachine::defrostState(void){
     if (previousState != DEFROST){
         USBSerial.println("Entering defrost state");
         
-        USBSerial.printf("Setting fan speed = %f\n", otaVars.fanSpeedEnabled);
-        outputs.setFanSpeed(otaVars.fanSpeedEnabled);
+        USBSerial.printf("Setting fan speed = %f\n", envVars["fanSpeedEnabled"]);
+        outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
-        compressorManualSpeed(otaVars.compressorSpeedIdle);
+        compressorManualSpeed(envVars["compressorSpeedIdle"]);
 
         outputs.setEvaporatorValve(outputs.OPEN);
         outputs.setEvaporatorBypassValve(outputs.CLOSED);

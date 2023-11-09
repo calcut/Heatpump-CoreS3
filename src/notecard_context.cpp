@@ -1,33 +1,50 @@
 #include "notecard_context.h"
 
-EnvVars envVars;
+// EnvVars envVars;
 
-void myEnvVarCb(const char *var, const char *val, void *userCtx)
+void myEnvVarCb(const char *key, const char *val, void *userCtx)
 {
     // Cast the userCtx to the appropriate type.
-    EnvVars &ev = *(EnvVars *)userCtx;
+    // EnvVars &ev = *(EnvVars *)userCtx;
 
     USBSerial.print("\nCallback received variable \"");
-    USBSerial.print(var);
+    USBSerial.print(key);
     USBSerial.print("\" with value \"");
     USBSerial.print(val);
-    USBSerial.print("\" and context 0x");
-    USBSerial.print((unsigned long)userCtx, HEX);
     USBSerial.println(".");
 
 
-    // if (strcmp(var, "_sn") == 0) {
-    //     strlcpy(cache->serial_number, val, sizeof(cache->serial_number));
-    // }
-    // else if (strcmp(var, "string_a") == 0) {
-    //     strlcpy(cache->string_a, val, sizeof(cache->string_a));
-    // }
-    // else if (strcmp(var, "mode") == 0) {
-    //     cache->mode = atoi(val);
-    // }
+    // try{
+        // stateMachine.envVars.at(key) = atof(val);
+        // USBSerial.printf("set stateMachine.envVars[\"%s\"]=%f\n", key, stateMachine.envVars.at(key));
+    // } catch(std::out_of_range& e){}
 
-    // Consider changing to std::unordered_map with string keys and the appropriate value type
-    if (strcmp(var, "demandThreshold") == 0) {
-        ev.stateMachineVars->demandThreshold = atof(val);
-    };
+    // try{
+    //     notecardManager.envVars.at(key) = atoi(val);
+    //     USBSerial.printf("%s: %d\n", key, notecardManager.envVars.at(key));
+    // } catch(std::out_of_range& e){}
+
+
+}
+    
+void setDefaultEnvironment(void){
+
+    char* value;
+    char* key;
+    int decimals = 3;
+
+    // for (auto& envVar : notecardManager.envVars) {
+        // key = const_cast<char*>(envVar.first.c_str());
+        // dtostrf(envVar.second, 0, decimals, value);
+        key = "abc";
+        value = "123";
+        // notecardManager.setDefaultEnvironmentVar(key, value);
+    // }
+    // for (auto& envVar : stateMachine.envVars) {
+    //     // key = const_cast<char*>(envVar.first.c_str());
+    //     // dtostrf(envVar.second, 0, decimals, value);
+    //     key = "def";
+    //     value = "456";
+    //     notecardManager.setDefaultEnvironmentVar(key, value);
+    // }
 }

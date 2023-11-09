@@ -7,24 +7,8 @@
 
 #include <Arduino.h>
 #include <Notecard.h>
+#include <unordered_map>
 #include "NotecardEnvVarManager.h"
-
-// A struct to cache the values of environment variables.
-typedef struct {
-    char serial_number[32];
-    char string_a[16] = "example_string";
-    int mode = 0;
-    float set_point = 20.0;
-    float comp_speed_max = 100.0;
-    float comp_speed_min = 0.0;
-    float fan_speed_max = 100.0;
-    float fan_speed_min = 0.0;
-    float pump_speed_max = 100.0;
-    float pump_speed_min = 0.0;
-
-} EnvVarCache;
-
-void envVarManagerCb(const char *var, const char *val, void *userCtx);
 
 
 class NotecardManager {
@@ -44,10 +28,9 @@ class NotecardManager {
         void cardStatus();
         void cardWireless();
         void getEnvironment();
-        void setDefaultEnvironment();
-        void setEnvironmentVariable(char *name, char * text);
+        void setEnvironmentVar(char *name, char * text);
+        void setDefaultEnvironmentVar(char *name, char * text);
         void getTime();
-        EnvVarCache envVarCache;
         bool connected;
         int bars;
         int rssi;
@@ -61,11 +44,11 @@ class NotecardManager {
         int utc_offset_minutes = 0;
         bool serviceEnabled = false;
         bool serviceTick = false;
-        int serviceInterval_s = 10;
-        int timeSyncInterval_s = 10;
-
-
-
+        
+        std::unordered_map<std::string, int> envVars = {
+            {"serviceInterval_s", 10},
+            {"timeSyncInterval_s", 10},
+        };
 };
 
 extern NotecardManager notecardManager;

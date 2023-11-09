@@ -5,15 +5,18 @@ SemaphoreHandle_t nc_mutex = xSemaphoreCreateMutex();
 void setupRtos(void){
 
     #ifdef USE_NOTECARD
+    xSemaphoreTake(nc_mutex, portMAX_DELAY);
     notecardManager.begin(serialDisplay);
-    if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
-                             myEnvVarCb, &envVars) != NEVM_SUCCESS)
-    {
-    USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
-    }
-    else{
-        USBSerial.println("NotecardManager started");
-    }
+    // if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
+    //                          myEnvVarCb, NULL) != NEVM_SUCCESS)
+    // {
+    // USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
+    // }
+    // else{
+    //     // setDefaultEnvironment();
+    //     USBSerial.println("NotecardManager started");
+    // }
+    xSemaphoreGive(nc_mutex);
     #endif
 
     #ifdef USE_GUI
@@ -140,7 +143,7 @@ void serviceNotecard(void * pvParameters){
             notecardManager.serviceTick = !notecardManager.serviceTick;
             xSemaphoreGive(nc_mutex);
 
-            vTaskDelay(notecardManager.serviceInterval_s*1000 / portTICK_PERIOD_MS);
+            vTaskDelay(notecardManager.envVars["serviceInterval_s"]*1000 / portTICK_PERIOD_MS);
         }
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
@@ -160,8 +163,12 @@ void timeSyncNotecard(void * pvParameters){
     else{
         USBSerial.printf("Notecard not connected, skipping time sync\n");
     }
+    USBSerial.printf("Notecard getEnvironment...\n");
+    notecardManager.getEnvironment();
+    USBSerial.printf("... Notecard getEnvironment done\n");
+
     xSemaphoreGive(nc_mutex);
-    vTaskDelay(notecardManager.timeSyncInterval_s*1000 / portTICK_PERIOD_MS);
+    vTaskDelay(notecardManager.envVars["timeSyncInterval_s"]*1000 / portTICK_PERIOD_MS);
   }
 }
 #endif

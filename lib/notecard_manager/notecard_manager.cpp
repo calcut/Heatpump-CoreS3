@@ -52,10 +52,6 @@ void NotecardManager::init(const char *uid, const char *mode, int inbound, int o
             notecard.logDebug("Warning, failed to enable outboard DFU\n");
         }
     }
-
-    setDefaultEnvironment();
-    getEnvironment();
-
 }
 
 void NotecardManager::hubGet(){
@@ -141,7 +137,7 @@ void NotecardManager::getEnvironment(){
     }   
 }   
 
-void NotecardManager::setEnvironmentVariable(char *name, char * text){
+void NotecardManager::setEnvironmentVar(char *name, char * text){
     J *req = notecard.newRequest("env.set");
     JAddStringToObject(req, "name", name);
     JAddStringToObject(req, "text", text);
@@ -158,51 +154,9 @@ void NotecardManager::getTime(){
     }
 }
 
-
-void NotecardManager::setDefaultEnvironment(){
-
-    char number_as_text[8];
-    EnvVarCache *cache = &envVarCache;
-
-    #define FLOAT_DECIMALS 3
-
-    J *req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "set_point");
-    JAddStringToObject(req, "text", dtostrf(cache->set_point, 0, FLOAT_DECIMALS, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "mode");
-    JAddStringToObject(req, "text", dtostrf(cache->mode, 0, 0, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "comp_speed_max");
-    JAddStringToObject(req, "text", dtostrf(cache->comp_speed_max, 0, FLOAT_DECIMALS, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "comp_speed_min");
-    JAddStringToObject(req, "text", dtostrf(cache->comp_speed_min, 0, FLOAT_DECIMALS, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "fan_speed_max");
-    JAddStringToObject(req, "text", dtostrf(cache->fan_speed_max, 0, FLOAT_DECIMALS, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "fan_speed_min");
-    JAddStringToObject(req, "text", dtostrf(cache->fan_speed_min, 0, FLOAT_DECIMALS, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "pump_speed_max");
-    JAddStringToObject(req, "text", dtostrf(cache->pump_speed_max, 0, FLOAT_DECIMALS, number_as_text));
-    notecard.sendRequest(req);
-
-    req = NoteNewRequest("env.default");
-    JAddStringToObject(req, "name", "pump_speed_min");
-    JAddStringToObject(req, "text", dtostrf(cache->pump_speed_min, 0, FLOAT_DECIMALS, number_as_text));
+void NotecardManager::setDefaultEnvironmentVar(char *name, char *text){
+    J *req = notecard.newRequest("env.default");
+    JAddStringToObject(req, "name", name);
+    JAddStringToObject(req, "text", text);
     notecard.sendRequest(req);
 }
