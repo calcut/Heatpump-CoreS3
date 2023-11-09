@@ -11,10 +11,14 @@ void setupRtos(void){
     {
     USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
     }
+    else{
+        USBSerial.println("NotecardManager started");
+    }
     #endif
 
     #ifdef USE_GUI
     setupGui();
+    USBSerial.println("GUI setup complete");
     #endif
 
     xTaskCreate(

@@ -7,7 +7,8 @@ void hal_setup(void){
 
     // For DEBUG ONLY, otherwise it won't boot without a USB cable
     #ifdef DEBUG
-    while (!USBSerial) {}
+    while (!USBSerial) {;}
+    USBSerial.println("USB Serial Started");
     #endif
 
     M5.begin();
@@ -26,6 +27,7 @@ void hal_setup(void){
     // M5.In_I2C.bitOn(AW9523_ADDR, 0x02, 0b00100000, 100000L);  // USB_OTG_EN = 1
 
     Wire.begin(PIN_SDA_I2C_EXT, PIN_SCL_I2C_EXT, 400000);  //Init I2C_EXT
+    USBSerial.println("hal_setup complete");
 
 };
 
