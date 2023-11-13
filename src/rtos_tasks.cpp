@@ -4,34 +4,6 @@ SemaphoreHandle_t nc_mutex = xSemaphoreCreateMutex();
 
 void setupRtos(void){
 
-    #ifdef USE_NOTECARD
-    xSemaphoreTake(nc_mutex, portMAX_DELAY);
-    notecardManager.begin(serialDisplay);
-    if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
-                             myEnvVarCb, NULL) != NEVM_SUCCESS)
-    {
-    USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
-    }
-    else{
-        setDefaultEnvironment();
-        USBSerial.println("NotecardManager started");
-    }
-    xSemaphoreGive(nc_mutex);
-    #endif
-
-    #ifdef USE_GUI
-    setupGui();
-    USBSerial.println("GUI setup complete");
-
-    inputs.init();
-    stateMachine.demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
-    stateMachine.defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
-    stateMachine.flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
-    stateMachine.compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
-    stateMachine.compressorPIDsetpoint = &stateMachine.envVars["demandThreshold"];
-
-    #endif
-
     xTaskCreate(
         runStateMachine, // task function
         "State Machine", // task name
@@ -60,7 +32,7 @@ void setupRtos(void){
     xTaskCreate(
         timeSyncNotecard, // task function
         "Notecard Time Sync", // task name
-        131072, // stack size in bytes
+        16384, // stack size in bytes
         NULL, // pointer to parameters
         1, // priority
         NULL); // out pointer to task handle
@@ -88,6 +60,14 @@ void setupRtos(void){
 }
 
 void runStateMachine(void * pvParameters){
+
+    inputs.init();
+    stateMachine.demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
+    stateMachine.defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
+    stateMachine.flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
+    stateMachine.compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
+    stateMachine.compressorPIDsetpoint = &stateMachine.envVars["demandThreshold"];
+    
     while(1){
         stateMachine.run();
         vTaskDelay(500 / portTICK_PERIOD_MS);
@@ -113,6 +93,9 @@ void readFlowMeters(void *pvParameters)
 
 #ifdef USE_GUI
 void serviceGUI(void * pvParameters){
+
+    setupGui();
+    USBSerial.println("GUI setup complete");
     while(1){
         int delay_ms = lv_timer_handler();
         vTaskDelay(delay_ms / portTICK_PERIOD_MS);
@@ -122,6 +105,21 @@ void serviceGUI(void * pvParameters){
 
 #ifdef USE_NOTECARD
 void serviceNotecard(void * pvParameters){
+
+    xSemaphoreTake(nc_mutex, portMAX_DELAY);
+
+    notecardManager.begin(serialDisplay);
+    if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
+                             myEnvVarCb, NULL) != NEVM_SUCCESS)
+    {
+    USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
+    }
+    else{
+        setDefaultEnvironment();
+        USBSerial.println("NotecardManager started");
+    }
+    xSemaphoreGive(nc_mutex);
+
     while(1){
 
         if (notecardManager.serviceEnabled){
