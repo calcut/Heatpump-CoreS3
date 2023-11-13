@@ -7,15 +7,15 @@ void setupRtos(void){
     #ifdef USE_NOTECARD
     xSemaphoreTake(nc_mutex, portMAX_DELAY);
     notecardManager.begin(serialDisplay);
-    // if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
-    //                          myEnvVarCb, NULL) != NEVM_SUCCESS)
-    // {
-    // USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
-    // }
-    // else{
-    //     // setDefaultEnvironment();
-    //     USBSerial.println("NotecardManager started");
-    // }
+    if (NotecardEnvVarManager_setEnvVarCb(notecardManager.envVarManager,
+                             myEnvVarCb, NULL) != NEVM_SUCCESS)
+    {
+    USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
+    }
+    else{
+        // setDefaultEnvironment();
+        USBSerial.println("NotecardManager started");
+    }
     xSemaphoreGive(nc_mutex);
     #endif
 
@@ -52,7 +52,7 @@ void setupRtos(void){
     xTaskCreate(
         timeSyncNotecard, // task function
         "Notecard Time Sync", // task name
-        32768, // stack size in bytes
+        131072, // stack size in bytes
         NULL, // pointer to parameters
         1, // priority
         NULL); // out pointer to task handle
