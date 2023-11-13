@@ -35,14 +35,13 @@ void sendSensorData(void){
     JAddStringToObject(req, "file", "inputs.qo");
     JAddBoolToObject(req, "sync", true);
 
-    // for (auto& keyval : inputs.temperatureData) {
-    //     key = const_cast<char*>(keyval.first.c_str());
-    //     JAddNumberToObject(body, key, keyval.second);
-    // }
     J *body = JCreateObject();
 
     JAddFloatMapToObject(body, inputs.temperatureData);
     JAddFloatMapToObject(body, inputs.pressureData);
+    JAddFloatMapToObject(body, inputs.speedData);
+    JAddFloatMapToObject(body, inputs.flowData);
+    JAddFloatMapToObject(body, inputs.powerData);
 
     JAddItemToObject(req, "body", body);
     NoteRequest(req);

@@ -9,40 +9,40 @@ class Inputs {
 public:
 
     std::unordered_map<std::string, float> temperatureData = {
-        {"Tr1_CompressorOut", 0.0},
-        {"Tr2_CondenserOut", 0.0},
-        {"Tr3_FlexStore", 0.0},
-        {"Tr4_Evaporator", 0.0},
-        {"Tr5_CompressorIn", 0.0},
-        {"Tw1_DHWReturn", 0.0},
-        {"Tw2_DHWFlow", 0.0},
-        {"Tw3_FlexStore", 0.0},
-        {"Tw4_SolarFlow", 0.0},
-        {"Tw5_SolarReturn", 0.0},
-        {"Ta1_EvaporatorIn", 0.0},
-        {"Ta1_EvaporatorOut", 0.0}
+        {"Tr1_CompressorOut", nan("0")},
+        {"Tr2_CondenserOut", nan("0")},
+        {"Tr3_FlexStore", nan("0")},
+        {"Tr4_Evaporator", nan("0")},
+        {"Tr5_CompressorIn", nan("0")},
+        {"Tw1_DHWReturn", nan("0")},
+        {"Tw2_DHWFlow", nan("0")},
+        {"Tw3_FlexStore", nan("0")},
+        {"Tw4_SolarFlow", nan("0")},
+        {"Tw5_SolarReturn", nan("0")},
+        {"Ta1_EvaporatorIn", nan("0")},
+        {"Ta1_EvaporatorOut", nan("0")}
     };
 
     std::unordered_map<std::string, float> pressureData = {
-        {"Pr1_CompressorOut", 0.0},
-        {"Pr2_Evaporator", 0.0},
-        {"Pr3_CompressorIn", 0.0}
+        {"Pr1_CompressorOut", nan("0")},
+        {"Pr2_Evaporator", nan("0")},
+        {"Pr3_CompressorIn", nan("0")}
     };
 
     std::unordered_map<std::string, float> flowData = {
-        {"Fl1_DHW_lpm", 0.0},
-        {"Fl2_Solar", 0.0}
+        {"Fl1_DHW_lpm", nan("0")},
+        {"Fl2_Solar", nan("0")}
     };
 
     std::unordered_map<std::string, float> powerData = {
-        {"P1_Supply", 0.0},
-        {"P2_Compressor", 0.0},
-        {"P3_Fan", 0.0}
+        {"P1_Supply", nan("0")},
+        {"P2_Compressor", nan("0")},
+        {"P3_Fan", nan("0")}
     };
 
     std::unordered_map<std::string, float> speedData = {
-        {"S1_Compressor", 0.0},
-        {"P2_Fan", 0.0}
+        {"S1_Compressor", nan("0")},
+        {"P2_Fan", nan("0")}
     };
 
 
