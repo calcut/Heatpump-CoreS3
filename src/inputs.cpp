@@ -3,7 +3,18 @@
 Inputs inputs;
 
 void Inputs::pollSensorData(void){
-    temperatureData["Tr1_CompressorOut"] = 1.0;
+    float tc[8];
+    yottaModule.readTC_float(tc);
+    temperatureData["Tr1_CompressorOut"]    = tc[0];
+    temperatureData["Tr2_Evaporator"]       = tc[1];
+    temperatureData["Tr3_FlexStore"]        = tc[2];
+    temperatureData["Tr4_CondenserOut"]     = tc[3];
+    temperatureData["Tr5_CompressorIn"]     = tc[4];
+    temperatureData["Tw1_DHWReturn"]        = tc[5];
+    temperatureData["Tw2_DHWFlow"]          = tc[6];
+    temperatureData["Tw3_FlexStore"]        = tc[7];
+
+    USBSerial.printf("Tr1_CompressorOut: %0.1f\n", temperatureData["Tr1_CompressorOut"]);
     // USBSerial.print("Polling sensor data\n");
 }
 

@@ -134,6 +134,15 @@ void display_sensor_info(lv_timer_t * timer){
             ui_Label2_value6
         };
 
+        lv_obj_t *tc_names[8] = {
+            ui_Label2_name1,
+            ui_Label2_name2,
+            ui_Label2_name3,
+            ui_Label2_name4,
+            ui_Label2_name5,
+            ui_Label2_name6
+        };
+
         lv_obj_t *pr_values[8] = {
             ui_Label2_value7,
             ui_Label2_value8
@@ -154,12 +163,30 @@ void display_sensor_info(lv_timer_t * timer){
         };
 
         // loop over all ui_Label2_valueX objects and update with new values
-        for (int i = 0; i < 6; i++){
-            sprintf(text_buffer, "%0.1f C", 99.9);
-            // dtostrf(qo_vars.tc[i], 0, FLOAT_DECIMALS, buffer);
+        char* key;
+        int i = 0;
+        USBSerial.printf("display_sensor_info\n");
+        // USBSerial.printf("inputs 
+        for (auto& keyval : inputs.temperatureData) {
+            key = const_cast<char*>(keyval.first.c_str());
+            sprintf(text_buffer, "%0.1f C", keyval.second);
             lv_label_set_text(tc_values[i], text_buffer);
-            lv_bar_set_value(tc_bars[i], 99.9, LV_ANIM_OFF);
+            lv_label_set_text(tc_names[i], key);
+            lv_bar_set_value(tc_bars[i], keyval.second, LV_ANIM_OFF);
+            i++;
+            if (i > 5) break;
         }
+
+        // float value = inputs.temperatureData["Tr1_CompressorOut"];
+        // sprintf(text_buffer, "%0.1f C", value);
+        // lv_label_set_text(tc_values[0], text_buffer);
+        // lv_bar_set_value(tc_bars[0], value, LV_ANIM_OFF);
+
+        // for (int i = 0; i < 6; i++){
+        //     sprintf(text_buffer, "%0.1f C", 99.9);
+        //     lv_label_set_text(tc_values[i], text_buffer);
+        //     lv_bar_set_value(tc_bars[i], 99.9, LV_ANIM_OFF);
+        // }
     }
 }
 
