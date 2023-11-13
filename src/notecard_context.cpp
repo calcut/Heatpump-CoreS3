@@ -16,12 +16,14 @@ void myEnvVarCb(const char *key, const char *val, void *userCtx)
 
     try{
         stateMachine.envVars.at(key) = atof(val);
-        USBSerial.printf("set stateMachine.envVars[\"%s\"]=%f\n", key, stateMachine.envVars.at(key));
+        USBSerial.printf("set stateMachine.envVars[\"%s\"]=%f\n",
+                         key, stateMachine.envVars.at(key));
     } catch(std::out_of_range& e){}
 
     try{
         notecardManager.envVars.at(key) = atoi(val);
-        USBSerial.printf("%s: %d\n", key, notecardManager.envVars.at(key));
+        USBSerial.printf("set notecardManager.envVars[\"%s\"]=%d\n",
+                         key, notecardManager.envVars.at(key));
     } catch(std::out_of_range& e){}
 
 
@@ -29,20 +31,18 @@ void myEnvVarCb(const char *key, const char *val, void *userCtx)
     
 void setDefaultEnvironment(void){
 
-    char* value;
+    char value[12];
     char* key;
-    int decimals = 3;
+    int floatDecimals = 3;
 
     for (auto& envVar : notecardManager.envVars) {
         key = const_cast<char*>(envVar.first.c_str());
-        dtostrf(envVar.second, 0, decimals, value);
+        dtostrf(envVar.second, 0, 0, value);
         notecardManager.setDefaultEnvironmentVar(key, value);
     }
-    // for (auto& envVar : stateMachine.envVars) {
-    //     // key = const_cast<char*>(envVar.first.c_str());
-    //     // dtostrf(envVar.second, 0, decimals, value);
-    //     key = "def";
-    //     value = "456";
-    //     notecardManager.setDefaultEnvironmentVar(key, value);
-    // }
+    for (auto& envVar : stateMachine.envVars) {
+        key = const_cast<char*>(envVar.first.c_str());
+        dtostrf(envVar.second, 0, floatDecimals, value);
+        notecardManager.setDefaultEnvironmentVar(key, value);
+    }
 }

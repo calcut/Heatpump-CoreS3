@@ -13,7 +13,7 @@ void setupRtos(void){
     USBSerial.println("Failed to set callback for NotecardEnvVarManager.");
     }
     else{
-        // setDefaultEnvironment();
+        setDefaultEnvironment();
         USBSerial.println("NotecardManager started");
     }
     xSemaphoreGive(nc_mutex);
