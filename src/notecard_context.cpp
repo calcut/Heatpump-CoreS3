@@ -51,9 +51,11 @@ void sendSensorData(void){
 void JAddFloatMapToObject(J *obj, std::unordered_map<std::string, float> map){
 
     for (auto& keyval : map) {
-        JAddNumberToObject(obj,
-                        const_cast<char*>(keyval.first.c_str()),
-                        keyval.second);
+        if (!isnan(keyval.second)) {
+            JAddNumberToObject(obj,
+                            const_cast<char*>(keyval.first.c_str()),
+                            keyval.second);
+        }
     }
 }   
     
