@@ -3,54 +3,49 @@
 
 #include "yotta_module.h"
 #include <driver/pcnt.h> //ESP32 Pulse counter
+#include <unordered_map>
 
 class Inputs {
 public:
 
-    struct TemperatureData {
-        float Tr1_CompressorOut;
-        float Tr2_CondenserOut;
-        float Tr3_FlexStore;
-        float Tr4_Evaporator;
-        float Tr5_CompressorIn;
-        float Tw1_DHWReturn;
-        float Tw2_DHWFlow;
-        float Tw3_FlexStore;
-        float Tw4_SolarFlow;
-        float Tw5_SolarReturn;
-        float Ta1_EvaporatorIn;
-        float Ta1_EvaporatorOut;
+    std::unordered_map<std::string, float> temperatureData = {
+        {"Tr1_CompressorOut", 0.0},
+        {"Tr2_CondenserOut", 0.0},
+        {"Tr3_FlexStore", 0.0},
+        {"Tr4_Evaporator", 0.0},
+        {"Tr5_CompressorIn", 0.0},
+        {"Tw1_DHWReturn", 0.0},
+        {"Tw2_DHWFlow", 0.0},
+        {"Tw3_FlexStore", 0.0},
+        {"Tw4_SolarFlow", 0.0},
+        {"Tw5_SolarReturn", 0.0},
+        {"Ta1_EvaporatorIn", 0.0},
+        {"Ta1_EvaporatorOut", 0.0}
     };
 
-    struct PressureData {
-        float Pr1_CompressorOut;
-        float Pr2_Evaporator;
-        float Pr3_CompressorIn;
+    std::unordered_map<std::string, float> pressureData = {
+        {"Pr1_CompressorOut", 0.0},
+        {"Pr2_Evaporator", 0.0},
+        {"Pr3_CompressorIn", 0.0}
     };
 
-    struct FlowData {
-        float Fl1_DHW_lpm;
-        float Fl2_Solar;
+    std::unordered_map<std::string, float> flowData = {
+        {"Fl1_DHW_lpm", 0.0},
+        {"Fl2_Solar", 0.0}
     };
 
-    struct PowerData {
-        float P1_Supply;
-        float P2_Compressor;
-        float P3_Fan;
+    std::unordered_map<std::string, float> powerData = {
+        {"P1_Supply", 0.0},
+        {"P2_Compressor", 0.0},
+        {"P3_Fan", 0.0}
     };
 
-    struct SpeedData {
-        float S1_Compressor;
-        float P2_Fan;
+    std::unordered_map<std::string, float> speedData = {
+        {"S1_Compressor", 0.0},
+        {"P2_Fan", 0.0}
     };
 
-    struct SensorData {
-        TemperatureData temperatureData;
-        PressureData pressureData;
-        FlowData flowData;
-        PowerData powerData;
-        SpeedData speedData;
-    };
+
 
     enum HandOffAuto {
         HAND,
@@ -74,7 +69,6 @@ public:
     void serviceFlowMeters(void);
     void pollSensorData(void);
     void pollPhysicalControls(void);
-    SensorData sensorData;
     PhysicalControls physicalControls;
 
 private:

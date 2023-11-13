@@ -28,30 +28,16 @@ public:
 
     State currentState;
     State previousState;
-    Inputs::SensorData sensorData;
-    Inputs::SensorData sensorDataLimitsMax;
-    Inputs::SensorData sensorDataLimitsMin;
+    // Inputs::SensorData sensorData;
+    // Inputs::SensorData sensorDataLimitsMax;
+    // Inputs::SensorData sensorDataLimitsMin;
 
     Inputs::PhysicalControls physicalControls;
 
-    float* demandSensor = &sensorData.temperatureData.Tw2_DHWFlow;
-    float* defrostSensor = &sensorData.temperatureData.Ta1_EvaporatorIn;
-    float* flexStoreSensor = &sensorData.temperatureData.Tw3_FlexStore;
+    float* demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
+    float* defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
+    float* flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
 
-
-    // struct OTAVars{
-    //     float demandThreshold = 0.0;
-    //     float demandHysteresis = 1.0;
-    //     float defrostThreshold = 5.0;
-    //     float flexStoreLow = 20.0;
-    //     float flexStoreHigh = 30.0;
-    //     float compressorSpeedIdle = 20.0; //percent
-    //     float fanSpeedEnabled = 50.0; //percent
-    //     float defrostInterval_s = 60;
-    //     float compressorPID_P = 0.1;
-    //     float compressorPID_I = 0.0;
-    //     float compressorPID_D = 0.0;
-    // };
     std::unordered_map<std::string, float> envVars = {
         {"demandThreshold", 0.0},
         {"demandHysteresis", 1.0},
@@ -67,7 +53,7 @@ public:
     };
 
     float flexStoreThreshold = 20.0;
-    float* compressorPIDinput = &sensorData.temperatureData.Tw2_DHWFlow;
+    float* compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
     float* compressorPIDsetpoint = &envVars["demandThreshold"];
     float* compressorPIDoutput;
 

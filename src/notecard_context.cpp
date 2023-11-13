@@ -25,13 +25,44 @@ void myEnvVarCb(const char *key, const char *val, void *userCtx){
 
 
 }
+
+void sendSensorData(void){
+
+    char* key;
+    int floatDecimals = 3;
+    J *req = NoteNewRequest("note.add");
+
+    JAddStringToObject(req, "file", "inputs.qo");
+    JAddBoolToObject(req, "sync", true);
+
+    // for (auto& keyval : inputs.temperatureData) {
+    //     key = const_cast<char*>(keyval.first.c_str());
+    //     JAddNumberToObject(body, key, keyval.second);
+    // }
+    J *body = JCreateObject();
+
+    JAddFloatMapToObject(body, inputs.temperatureData);
+    JAddFloatMapToObject(body, inputs.pressureData);
+
+    JAddItemToObject(req, "body", body);
+    NoteRequest(req);
+
+}
+
+void JAddFloatMapToObject(J *obj, std::unordered_map<std::string, float> map){
+
+    for (auto& keyval : map) {
+        JAddNumberToObject(obj,
+                        const_cast<char*>(keyval.first.c_str()),
+                        keyval.second);
+    }
+}   
     
 void setDefaultEnvironment(void){
 
     // Copies the current value of the environment variables to the Notecard
     // and saves them as the default values.
     // Typically run once at startup.
-
     char value[12];
     char* key;
     int floatDecimals = 3;

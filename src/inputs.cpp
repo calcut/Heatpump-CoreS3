@@ -3,7 +3,7 @@
 Inputs inputs;
 
 void Inputs::pollSensorData(void){
-    sensorData.temperatureData.Tr1_CompressorOut = 1.0;
+    temperatureData["Tr1_CompressorOut"] = 1.0;
     // USBSerial.print("Polling sensor data\n");
 }
 
@@ -24,7 +24,7 @@ void Inputs::serviceFlowMeters(void){
 
     if (millis() - previousPulseTime != 0){
         flowPPS = ((counterVal - previousPulseCount)*1000)/(millis() - previousPulseTime);
-        sensorData.flowData.Fl1_DHW_lpm = flowPPS * 60 / 4600; //4600 pulses per litre
+        inputs.flowData["Fl1_DHW_lpm"] = flowPPS * 60 / 4600; //4600 pulses per litre
     }
 
     previousPulseCount = counterVal;

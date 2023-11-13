@@ -31,7 +31,6 @@ void display_pid_info(lv_timer_t * timer){
     if (lv_scr_act() == ui_Screen4){
 
         Serial.printf("PID info poll\n");
-        Inputs::SensorData sensors = inputs.sensorData;
 
         sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKp());
         lv_label_set_text(ui_Label4_Kp_val, text_buffer);
@@ -54,7 +53,7 @@ void display_pid_info(lv_timer_t * timer){
         sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetDterm());
         lv_label_set_text(ui_Label4_Dterm_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", sensors.speedData.S1_Compressor);
+        sprintf(text_buffer, "%.3g", inputs.speedData["S1_Compressor"]);
         lv_label_set_text(ui_Label4_Output_val, text_buffer);
 
         sprintf(text_buffer, "%.3g", *stateMachine.compressorPIDsetpoint);

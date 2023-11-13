@@ -159,6 +159,10 @@ void timeSyncNotecard(void * pvParameters){
     notecardManager.getEnvironment();
     USBSerial.printf("... Notecard getEnvironment done\n");
 
+    USBSerial.printf("Notecard sendSensorData...\n");
+    sendSensorData();
+    USBSerial.printf("... Notecard sendSensorData done\n");
+
     xSemaphoreGive(nc_mutex);
     vTaskDelay(notecardManager.envVars["timeSyncInterval_s"]*1000 / portTICK_PERIOD_MS);
   }
