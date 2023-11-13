@@ -165,8 +165,6 @@ void display_sensor_info(lv_timer_t * timer){
         // loop over all ui_Label2_valueX objects and update with new values
         char* key;
         int i = 0;
-        USBSerial.printf("display_sensor_info\n");
-        // USBSerial.printf("inputs 
         for (auto& keyval : inputs.temperatureData) {
             key = const_cast<char*>(keyval.first.c_str());
             sprintf(text_buffer, "%0.1f C", keyval.second);

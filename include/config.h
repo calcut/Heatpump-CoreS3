@@ -2,7 +2,7 @@
 #define __CONFIG_H
 
 // If DEBUG is defined, it won't boot without a USB cable
-#define DEBUG
+// #define DEBUG
 #define USE_GUI
 #define USE_NOTECARD
 

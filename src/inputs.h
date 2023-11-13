@@ -20,7 +20,7 @@ public:
         {"Tw4_SolarFlow", nan("0")},
         {"Tw5_SolarReturn", nan("0")},
         {"Ta1_EvaporatorIn", nan("0")},
-        {"Ta1_EvaporatorOut", nan("0")}
+        {"Ta2_EvaporatorOut", nan("0")}
     };
 
     std::unordered_map<std::string, float> pressureData = {
@@ -64,7 +64,7 @@ public:
         ManualState manualState;
     };
 
-    Inputs(void);
+    void init(void);
     void initFlowMeters(int pin);
     void serviceFlowMeters(void);
     void pollSensorData(void);

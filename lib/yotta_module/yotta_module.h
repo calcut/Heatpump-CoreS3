@@ -14,10 +14,9 @@
 class YottaModule {
 
     private:
-        int slave_id;
+        int slave_id = YOTTA_MODULE_ADDRESS;
 
     public:
-        YottaModule(int slave_id);
         void readTC_float(float_t *tc);
         void readTC_int(int32_t *tc);
         void readTC_int_decimal(int32_t *tc);

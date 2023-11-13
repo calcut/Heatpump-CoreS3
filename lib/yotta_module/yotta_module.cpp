@@ -1,11 +1,6 @@
 #include "yotta_module.h"
 
 
-YottaModule::YottaModule(int slave_id) {
-    slave_id = slave_id;
-    // ModbusRTUClient.master();
-    // ModbusRTUClient.slave(slave_id);
-}
 void YottaModule::readTC_float(float_t tc[8]) {
 
     if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,

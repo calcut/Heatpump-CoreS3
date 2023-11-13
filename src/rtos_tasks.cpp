@@ -22,6 +22,14 @@ void setupRtos(void){
     #ifdef USE_GUI
     setupGui();
     USBSerial.println("GUI setup complete");
+
+    inputs.init();
+    stateMachine.demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
+    stateMachine.defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
+    stateMachine.flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
+    stateMachine.compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
+    stateMachine.compressorPIDsetpoint = &stateMachine.envVars["demandThreshold"];
+
     #endif
 
     xTaskCreate(
@@ -98,7 +106,7 @@ void readFlowMeters(void *pvParameters)
     inputs.initFlowMeters(PIN_PULSE_COUNT);   
     while (1)
     {
-        stateMachine.inputs.serviceFlowMeters();
+        inputs.serviceFlowMeters();
         vTaskDelay(500 / portTICK_PERIOD_MS);
     }
 }

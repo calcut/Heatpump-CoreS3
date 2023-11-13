@@ -23,8 +23,6 @@ public:
     bool enabled = false;
 
     QuickPID compressorPID;
-    Inputs inputs;
-    Outputs outputs;
 
     State currentState;
     State previousState;
@@ -34,9 +32,9 @@ public:
 
     Inputs::PhysicalControls physicalControls;
 
-    float* demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
-    float* defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
-    float* flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
+    float* demandSensor;
+    float* defrostSensor;
+    float* flexStoreSensor;
 
     std::unordered_map<std::string, float> envVars = {
         {"demandThreshold", 0.0},
@@ -53,8 +51,8 @@ public:
     };
 
     float flexStoreThreshold = 20.0;
-    float* compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
-    float* compressorPIDsetpoint = &envVars["demandThreshold"];
+    float* compressorPIDinput;
+    float* compressorPIDsetpoint;
     float* compressorPIDoutput;
 
 
