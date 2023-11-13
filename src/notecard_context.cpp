@@ -1,18 +1,15 @@
 #include "notecard_context.h"
 
-// EnvVars envVars;
+void myEnvVarCb(const char *key, const char *val, void *userCtx){
 
-void myEnvVarCb(const char *key, const char *val, void *userCtx)
-{
-    // Cast the userCtx to the appropriate type.
-    // EnvVars &ev = *(EnvVars *)userCtx;
+    // Assigns received environment variables to the appropriate
+    // places. This requires an "unordered_map" of environment variables
+    // to be defined in each class that needs to receive them.
 
-    USBSerial.print("\nCallback received variable \"");
-    USBSerial.print(key);
-    USBSerial.print("\" with value \"");
-    USBSerial.print(val);
-    USBSerial.println(".");
+    // The incoming type is converted to e.g. float or int as required
+    // If the key is not found, it is ignored.
 
+    USBSerial.printf("EnvVar received: key=%s, val=%s\n", key, val);
 
     try{
         stateMachine.envVars.at(key) = atof(val);
@@ -30,6 +27,10 @@ void myEnvVarCb(const char *key, const char *val, void *userCtx)
 }
     
 void setDefaultEnvironment(void){
+
+    // Copies the current value of the environment variables to the Notecard
+    // and saves them as the default values.
+    // Typically run once at startup.
 
     char value[12];
     char* key;
