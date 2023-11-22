@@ -2,6 +2,7 @@
 #define INPUTS_H
 
 #include "yotta_module.h"
+#include "evd_module.h"
 #include <driver/pcnt.h> //ESP32 Pulse counter
 #include <unordered_map>
 
@@ -73,7 +74,7 @@ public:
 
 private:
     YottaModule yottaModule;
-
+    EvdModule evdModule;
     int previousPulseCount = 0;
     int previousPulseTime = 0;
     int16_t counterVal;

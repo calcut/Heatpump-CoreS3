@@ -60,6 +60,8 @@
 #define NC_OUTBOUND 1
 #define NC_UID "dwt.ac.uk.heatpump"
 
+#define RS485_BAUD 9600
+
 #define FLOAT_DECIMALS 1
 
 #define TERMINAL_LOG_LENGTH 512

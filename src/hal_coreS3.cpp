@@ -15,7 +15,7 @@ void hal_setup(void){
     M5.begin();
     M5.Display.setBrightness(60);
 
-    ModbusRTUClient.begin(19200, SERIAL_8N1);
+    ModbusRTUClient.begin(9600, SERIAL_8N1);
 
     //Default is just boost enabled (so can start from battery), AKA POWER_MODE_USB_IN_BUS_IN
     M5.In_I2C.bitOff(AW9523_ADDR, 0x03, 0b10000000, 100000L);  // BOOST_EN = 0

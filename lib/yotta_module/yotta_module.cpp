@@ -3,6 +3,7 @@
 
 void YottaModule::readTC_float(float_t tc[8]) {
 
+    USBSerial.print("Reading input values: ");
     if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
                                 736, 16)) {  //ABCD
 
@@ -17,11 +18,13 @@ void YottaModule::readTC_float(float_t tc[8]) {
 
             // Convert to float and print
             memcpy(&tc[i], &byte_array, 4);
-#ifdef DEBUG
             USBSerial.printf("TC[%i]: ", i);
             USBSerial.println(tc[i]);
-#endif
         }
+    }
+    else {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
     }
 }
 void YottaModule::readTC_int(int32_t tc[8]) {
