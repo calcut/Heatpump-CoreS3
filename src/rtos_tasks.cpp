@@ -70,7 +70,7 @@ void runStateMachine(void * pvParameters){
     
     while(1){
         stateMachine.run();
-        vTaskDelay(500 / portTICK_PERIOD_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
 
@@ -183,6 +183,12 @@ void debugTask(void * pvParameters){
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
         USBSerial.printf("1 second debug print %d\n", millis());
+        bool relays[16];
+        outputs.relayModule.getRelays(relays);
+        relays[0] = !relays[0];
+        relays[1] = !relays[1];
+        relays[2] = !relays[2];
+        outputs.relayModule.setRelays(relays);
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }

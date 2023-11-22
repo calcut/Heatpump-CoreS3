@@ -4,7 +4,7 @@
 #define MODULE_NAME_ADDR 210
 
 #ifndef YOTTA_MODULE_ADDRESS
-#define YOTTA_MODULE_ADDRESS 0
+#define YOTTA_MODULE_ADDRESS 1
 #endif
 
 #include <Arduino.h>

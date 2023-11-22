@@ -176,6 +176,16 @@ extern lv_obj_t *ui_Header_Time5;
 extern lv_obj_t *ui_TextAreaLog;
 void ui_event_Button5( lv_event_t * e);
 extern lv_obj_t *ui_Button5;
+// SCREEN: ui_Screen6
+void ui_Screen6_screen_init(void);
+extern lv_obj_t *ui_Screen6;
+extern lv_obj_t *ui_Chart1;
+extern lv_obj_t *ui_Header6;
+extern lv_obj_t *ui_BackLabel5;
+extern lv_obj_t *ui_Header_Title6;
+extern lv_obj_t *ui_Header_Time6;
+void ui_event_Button6( lv_event_t * e);
+extern lv_obj_t *ui_Button6;
 extern lv_obj_t *ui____initial_actions0;
 
 

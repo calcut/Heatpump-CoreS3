@@ -1,10 +1,5 @@
 #include "relay_module.h"
 
-
-RelayModule::RelayModule(int slave_id) {
-    slave_id = slave_id;
-}
-
 void RelayModule::getRelays(bool relays[16]) {
        
         int16_t relayreg = 0;
@@ -17,7 +12,7 @@ void RelayModule::getRelays(bool relays[16]) {
         }
         else {
             while (ModbusRTUClient.available()) {
-                int16_t relayreg = ModbusRTUClient.read();
+                relayreg = ModbusRTUClient.read();
             }
 
             for (int i = 0; i < 16; i++) {

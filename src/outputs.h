@@ -16,6 +16,8 @@
 class Outputs {
 public:
 
+    RelayModule relayModule;
+
     enum ValveState {
         OPEN = 1,
         CLOSED = 0

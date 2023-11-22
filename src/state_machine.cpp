@@ -21,6 +21,7 @@ void StateMachine::tunePID(void){
 
 void StateMachine::run(void){
 
+    USBSerial.println("Running state machine");
     previousState = currentState;
     inputs.pollSensorData();
     inputs.pollPhysicalControls();

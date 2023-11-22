@@ -7,6 +7,7 @@ SET(SOURCES components/ui_comp_button0.c
     screens/ui_Screen3.c
     screens/ui_Screen4.c
     screens/ui_Screen5.c
+    screens/ui_Screen6.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c

@@ -12,10 +12,23 @@ void setupGui(){
     lv_timer_t * timer_notecard_info = lv_timer_create(display_notecard_info, 1000, NULL);
     lv_timer_t * timer_sensor_info = lv_timer_create(display_sensor_info, 1000, NULL);
     lv_timer_t * timer_pid_info = lv_timer_create(display_pid_info, 1000, NULL);
+    lv_timer_t * timer_pressure_enthalpy = lv_timer_create(display_pressure_enthalpy, 1000, NULL);
     lv_timer_t * timer_log = lv_timer_create(display_log, 250, NULL);
 
     lv_obj_add_event_cb(ui_Screen3, nc_info_screen_event_cb, LV_EVENT_SCREEN_LOAD_START, NULL);
     lv_obj_add_event_cb(ui_Screen3, nc_info_screen_event_cb, LV_EVENT_SCREEN_UNLOAD_START, NULL);
+
+    lv_obj_set_style_size(ui_Chart1, 0, LV_PART_INDICATOR);
+
+    lv_chart_set_range( ui_Chart1, LV_CHART_AXIS_PRIMARY_X, 100, 800);
+    lv_chart_set_range( ui_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, 170);
+
+    lv_chart_set_point_count(ui_Chart1, 10);
+    lv_chart_series_t* ui_Chart1_series_1 = lv_chart_add_series(ui_Chart1, lv_color_hex(0x808080), LV_CHART_AXIS_PRIMARY_Y);
+    static lv_coord_t ui_Chart1_r290_xarray[] = { 100, 175, 280, 400, 500, 600, 630, 600, 550, 525,};
+    static lv_coord_t ui_Chart1_r290_yarray[] = {   0,  53, 103, 140, 160, 162, 141,  96,  36,   0,};
+    lv_chart_set_ext_y_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_r290_yarray);
+    lv_chart_set_ext_x_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_r290_xarray);
 }
 
 void nc_info_screen_event_cb(lv_event_t * event){
@@ -24,6 +37,37 @@ void nc_info_screen_event_cb(lv_event_t * event){
     }
     else if(event->code == LV_EVENT_SCREEN_UNLOAD_START){
         notecardManager.serviceEnabled = false;
+    }
+}
+
+void display_pressure_enthalpy(lv_timer_t * timer){
+
+    // R290 Enthalpy Dome Data from
+    // https://www.flycarpet.net/en/phonline
+    // x	    y	    log(y) *100
+    // 100	    1	      0
+    // 175	    3.4	     53
+    // 280	    10.7	103
+    // 400	    25.4	140
+    // 500	    40	    160
+    // 600	    42	    162
+    // 630	    25.8	141
+    // 600	    9.2	     96
+    // 550	    2.3	     36
+    // 525	    1	      0
+    if (lv_scr_act() == ui_Screen6){
+        /*Do not display points on the data*/
+        // lv_obj_set_style_size(ui_Chart1, 0, LV_PART_INDICATOR);
+
+        // lv_chart_set_range( ui_Chart1, LV_CHART_AXIS_PRIMARY_X, 100, 800);
+        // lv_chart_set_range( ui_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, 170);
+
+        // lv_chart_set_point_count(ui_Chart1, 10);
+        // lv_chart_series_t* ui_Chart1_series_1 = lv_chart_add_series(ui_Chart1, lv_color_hex(0x808080), LV_CHART_AXIS_PRIMARY_Y);
+        // static lv_coord_t ui_Chart1_r290_xarray[] = { 100, 175, 280, 400, 500, 600, 630, 600, 550, 525,};
+        // static lv_coord_t ui_Chart1_r290_yarray[] = {   0,  53, 103, 140, 160, 162, 141,  96,  36,   0,};
+        // lv_chart_set_ext_y_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_r290_yarray);
+        // lv_chart_set_ext_x_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_r290_xarray);
     }
 }
 
