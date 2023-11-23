@@ -1,8 +1,9 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-#include "yotta_module.h"
-#include "evd_module.h"
+#include "mod_a1019.h"
+#include "mod_evd.h"
+#include "mod_em408.h"
 #include <driver/pcnt.h> //ESP32 Pulse counter
 #include <unordered_map>
 
@@ -73,8 +74,9 @@ public:
     PhysicalControls physicalControls;
 
 private:
-    YottaModule yottaModule;
-    EvdModule evdModule;
+    Mod_a1019 mod_a1019;
+    Mod_evd mod_evd;
+    Mod_em408 mod_em408;
     int previousPulseCount = 0;
     int previousPulseTime = 0;
     int16_t counterVal;

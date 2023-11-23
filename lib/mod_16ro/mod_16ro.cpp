@@ -1,12 +1,12 @@
-#include "relay_module.h"
+#include "mod_16ro.h"
 
-void RelayModule::getRelays(bool relays[16]) {
+void Mod_16RO::getRelays(bool relays[16]) {
        
         int16_t relayreg = 0;
         USBSerial.print("Reading Relay Values: ");
 
         if (!ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
-                                    RELAY_OUTPUTS, 1)) {
+                                    MOD_16RO_OUTPUTS, 1)) {
             USBSerial.print("failed! ");
             USBSerial.println(ModbusRTUClient.lastError());
         }
@@ -23,7 +23,7 @@ void RelayModule::getRelays(bool relays[16]) {
         }
 }
 
-void RelayModule::setRelays(bool relays[16]) {
+void Mod_16RO::setRelays(bool relays[16]) {
     
 
     USBSerial.print("Setting Relay Values: ");
@@ -38,7 +38,7 @@ void RelayModule::setRelays(bool relays[16]) {
     USBSerial.print(' ');
 
     ModbusRTUClient.beginTransmission(slave_id, HOLDING_REGISTERS,
-                                         RELAY_OUTPUTS, 1);
+                                         MOD_16RO_OUTPUTS, 1);
 
     ModbusRTUClient.write(relayreg);
 
@@ -52,12 +52,12 @@ void RelayModule::setRelays(bool relays[16]) {
 }
 
 
-void RelayModule::init(bool relay_defaults[16]){
+void Mod_16RO::init(bool relay_defaults[16]){
     // Read the module name
     USBSerial.println("Reading Relay module name");
 
     if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
-                                RELAY_VERSION, 1)) {
+                                MOD_16RO_VERSION, 1)) {
         USBSerial.print("Module Detected: A-");
         while (ModbusRTUClient.available()) {
             USBSerial.print(ModbusRTUClient.read(), HEX);

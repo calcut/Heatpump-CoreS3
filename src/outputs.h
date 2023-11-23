@@ -9,14 +9,14 @@
 #define VALVE_TRANSITION_TIME_MS 3000
 #endif
 
-#include "relay_module.h"
+#include "mod_16ro.h"
 // #include "analog_IO.h"
 
 
 class Outputs {
 public:
 
-    RelayModule relayModule;
+    Mod_16RO mod_16RO;
 
     enum ValveState {
         OPEN = 1,

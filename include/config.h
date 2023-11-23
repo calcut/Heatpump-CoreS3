@@ -51,7 +51,7 @@
 
 #define PIN_PULSE_COUNT 8
 
-#define RELAY_MODULE_ID 1
+#define MOD_16RO_ID 1
 #define NOTECARD_FETCH_INTERVAL_MS (10 * 1000)
 
 #define NC_SYNC true

@@ -1,6 +1,6 @@
-#include "evd_module.h"
+#include "mod_evd.h"
 
-void EvdModule::getSensors(float sensors[4]) {
+void Mod_evd::getSensors(float sensors[4]) {
        
     USBSerial.print("Reading Evd Values: ");
 
@@ -20,7 +20,7 @@ void EvdModule::getSensors(float sensors[4]) {
 }
 
 
-void EvdModule::init(){
+void Mod_evd::init(){
     // Read the module name
 
     USBSerial.println("Reading Evd Network settings");
@@ -51,7 +51,7 @@ void EvdModule::init(){
 
 }
 
-void EvdModule::writeRegister(int reg, int value){
+void Mod_evd::writeRegister(int reg, int value){
     USBSerial.printf("Writing register %i = %i, ", reg, value);
     ModbusRTUClient.beginTransmission(slave_id, HOLDING_REGISTERS,
                                         reg, 1);
@@ -65,7 +65,7 @@ void EvdModule::writeRegister(int reg, int value){
 }
 
 
-void EvdModule::updateNetworkSettings(){
+void Mod_evd::updateNetworkSettings(){
 
     USBSerial.println("Switching to EvD default Baud rate 19200, SERIAL_8N2");
 
@@ -88,7 +88,7 @@ void EvdModule::updateNetworkSettings(){
     ModbusRTUClient.begin(RS485_BAUD, SERIAL_8N1);
 }
 
-void EvdModule::resetNetworkSettings(){
+void Mod_evd::resetNetworkSettings(){
     // This is just intended for debug/testing
 
     USBSerial.println("Resetting EvD Network Settings");

@@ -1,20 +1,20 @@
-#ifndef YOTTA_MODULE_H
-#define YOTTA_MODULE_H
+#ifndef MOD_A1019_H
+#define MOD_A1019_H
 
 #define MODULE_NAME_ADDR 210
 
-#ifndef YOTTA_MODULE_ADDRESS
-#define YOTTA_MODULE_ADDRESS 4
+#ifndef MOD_A1019_ADDRESS
+#define MOD_A1019_ADDRESS 4
 #endif
 
 #include <Arduino.h>
 #include <ArduinoModbus.h>
 
 
-class YottaModule {
+class Mod_a1019 {
 
     private:
-        int slave_id = YOTTA_MODULE_ADDRESS;
+        int slave_id = MOD_A1019_ADDRESS;
 
     public:
         void readTC_float(float_t *tc);

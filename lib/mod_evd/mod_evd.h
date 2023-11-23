@@ -1,5 +1,5 @@
-#ifndef EVD_MODULE_H
-#define EVD_MODULE_H
+#ifndef MOD_EVD_H
+#define MOD_EVD_H
 
 #define EVD_S1_READ 0
 #define EVD_S2_READ 1
@@ -17,18 +17,18 @@
 #define EVD_REFRIGERANT_TYPE 140
 #define EVD_MAIN_CONTROL 142
 
-#ifndef EVD_MODULE_ADDRESS
-#define EVD_MODULE_ADDRESS 198
+#ifndef MOD_EVD_ADDRESS
+#define MOD_EVD_ADDRESS 198
 #endif
 
 #include <Arduino.h>
 #include <ArduinoModbus.h>
 #include "config.h"
 
-class EvdModule {
+class Mod_evd {
 
     private:
-        int slave_id = EVD_MODULE_ADDRESS;
+        int slave_id = MOD_EVD_ADDRESS;
         void writeRegister(int reg, int value);
 
     public:

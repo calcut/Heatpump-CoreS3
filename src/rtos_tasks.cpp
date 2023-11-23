@@ -184,11 +184,11 @@ void debugTask(void * pvParameters){
         // }
         USBSerial.printf("5 second debug print %d\n", millis());
         bool relays[16];
-        outputs.relayModule.getRelays(relays);
-        relays[0] = !relays[0];
-        relays[1] = !relays[1];
-        relays[2] = !relays[2];
-        outputs.relayModule.setRelays(relays);
+        // outputs.mod_16RO.getRelays(relays);
+        // relays[0] = !relays[0];
+        // relays[1] = !relays[1];
+        // relays[2] = !relays[2];
+        // outputs.mod_16RO.setRelays(relays);
 
         vTaskDelay(5000 / portTICK_PERIOD_MS);
     }

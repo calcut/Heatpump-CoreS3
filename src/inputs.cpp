@@ -5,11 +5,14 @@ Inputs inputs;
 void Inputs::pollSensorData(void){
     float tc[8];
     float evd_sensors[4];
-    yottaModule.readTC_float(tc);
-    // Delay seems to be needed to prevent Modbus errors
-    // It fails at around 3ms or faster. So setting to 20ms
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    evdModule.getSensors(evd_sensors);
+    float voltage;
+    // mod_a1019.readTC_float(tc);
+    // // Delay seems to be needed to prevent Modbus errors
+    // // It fails at around 3ms or faster. So setting to 20ms
+    // vTaskDelay(20 / portTICK_PERIOD_MS);
+    // mod_evd.getSensors(evd_sensors);
+    // vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_em408.readVoltage(&voltage);
 
     temperatureData["Tr1_CompressorOut"]    = tc[0];
     temperatureData["Tr2_CondenserOut"]     = tc[1];
@@ -28,9 +31,9 @@ void Inputs::pollPhysicalControls(void){
 }
 
 void Inputs::init(void){
-    yottaModule.init();
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    evdModule.init();
+    // mod_a1019.init();
+    // vTaskDelay(20 / portTICK_PERIOD_MS);
+    // mod_evd.init();
 }
 
 void Inputs::serviceFlowMeters(void){

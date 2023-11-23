@@ -1,22 +1,22 @@
-#ifndef RELAY_MODULE_H
-#define RELAY_MODULE_H
+#ifndef MOD_16RO_H
+#define MOD_16RO_H
 
-#define RELAY_VERSION 0
-#define RELAY_WATCHDOG 8
-#define RELAY_OUTPUT_DEFAULTS 12
-#define RELAY_OUTPUTS 51
+#define MOD_16RO_VERSION 0
+#define MOD_16RO_WATCHDOG 8
+#define MOD_16RO_OUTPUT_DEFAULTS 12
+#define MOD_16RO_OUTPUTS 51
 
-#ifndef RELAY_MODULE_ADDRESS
-#define RELAY_MODULE_ADDRESS 2
+#ifndef MOD_16RO_ADDRESS
+#define MOD_16RO_ADDRESS 2
 #endif
 
 #include <Arduino.h>
 #include <ArduinoModbus.h>
 
-class RelayModule {
+class Mod_16RO {
 
     private:
-        int slave_id = RELAY_MODULE_ADDRESS;
+        int slave_id = MOD_16RO_ADDRESS;
 
     public:
         void setRelays(bool *relays);

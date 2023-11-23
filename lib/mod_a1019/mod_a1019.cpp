@@ -1,7 +1,7 @@
-#include "yotta_module.h"
+#include "mod_a1019.h"
 
 
-void YottaModule::readTC_float(float_t tc[8]) {
+void Mod_a1019::readTC_float(float_t tc[8]) {
 
     USBSerial.print("Reading input values: ");
     if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
@@ -27,7 +27,7 @@ void YottaModule::readTC_float(float_t tc[8]) {
         USBSerial.println(ModbusRTUClient.lastError());
     }
 }
-void YottaModule::readTC_int(int32_t tc[8]) {
+void Mod_a1019::readTC_int(int32_t tc[8]) {
 
         if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
                                     96, 8)) {
@@ -41,7 +41,7 @@ void YottaModule::readTC_int(int32_t tc[8]) {
         }
 }
 
-void YottaModule::readTC_int_decimal(int32_t tc[8]) {
+void Mod_a1019::readTC_int_decimal(int32_t tc[8]) {
 
         if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
                                 128, 8)) {
@@ -57,7 +57,7 @@ void YottaModule::readTC_int_decimal(int32_t tc[8]) {
 
 
 
-void YottaModule::setTypeTC(){
+void Mod_a1019::setTypeTC(){
 
     // Set the input types to K type thermocouple
     USBSerial.println("Setting input types to K type thermocouple");
@@ -69,7 +69,7 @@ void YottaModule::setTypeTC(){
     ModbusRTUClient.endTransmission();
 }
 
-void YottaModule::getType(){
+void Mod_a1019::getType(){
     // Read the input types
     USBSerial.println("Reading input types");
 
@@ -84,7 +84,7 @@ void YottaModule::getType(){
     }
 }
 
-void YottaModule::init(){
+void Mod_a1019::init(){
     // Read the module name
     USBSerial.println("Reading module name");
 
