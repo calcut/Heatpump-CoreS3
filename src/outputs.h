@@ -5,18 +5,20 @@
 #define COMPRESSOR_TRANSITION_TIME_MS 3000
 #endif
 
+#define COMPRESSOR_MAX_VOLTAGE_MV 5000 //millivolts
+
 #ifndef VALVE_TRANSITION_TIME_MS
 #define VALVE_TRANSITION_TIME_MS 3000
 #endif
 
 #include "mod_16ro.h"
-// #include "analog_IO.h"
-
+#include "mod_8ao.h"
 
 class Outputs {
 public:
 
     Mod_16RO mod_16RO;
+    Mod_8AO mod_8AO;
 
     enum ValveState {
         OPEN = 1,

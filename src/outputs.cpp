@@ -18,7 +18,8 @@ void Outputs::setReversingValve(bool state) {
 }
 
 void Outputs::setCompressorSpeed(float percent) {
-    // implementation here
+    int mVolts = (int)(percent/100*COMPRESSOR_MAX_VOLTAGE_MV);
+    mod_8AO.setOutputVoltage(1, mVolts);
 }
 
 void Outputs::setFanSpeed(float percent) {

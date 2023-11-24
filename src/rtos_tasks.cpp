@@ -4,13 +4,13 @@ SemaphoreHandle_t nc_mutex = xSemaphoreCreateMutex();
 
 void setupRtos(void){
 
-    xTaskCreate(
-        runStateMachine, // task function
-        "State Machine", // task name
-        16384, // stack size in bytes
-        NULL, // pointer to parameters
-        1, // priority
-        NULL); // out pointer to task handle
+    // xTaskCreate(
+    //     runStateMachine, // task function
+    //     "State Machine", // task name
+    //     16384, // stack size in bytes
+    //     NULL, // pointer to parameters
+    //     1, // priority
+    //     NULL); // out pointer to task handle
     
     xTaskCreate(
         readFlowMeters, // task function
@@ -189,8 +189,12 @@ void debugTask(void * pvParameters){
         // relays[1] = !relays[1];
         // relays[2] = !relays[2];
         // outputs.mod_16RO.setRelays(relays);
+        
+        outputs.mod_8AO.setOutputType(1, 1);
+        outputs.setCompressorSpeed(50);
 
         vTaskDelay(5000 / portTICK_PERIOD_MS);
+        
     }
 }
 #endif
