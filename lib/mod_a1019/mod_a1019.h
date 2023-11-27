@@ -14,7 +14,7 @@
 class Mod_a1019 {
 
     private:
-        int slave_id = MOD_A1019_ADDRESS;
+        int id = MOD_A1019_ADDRESS;
 
     public:
         void readTC_float(float_t *tc);
