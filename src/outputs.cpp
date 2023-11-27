@@ -3,6 +3,21 @@
 
 Outputs outputs;
 
+void Outputs::init() {
+
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_8AO.init();
+    // Set outputs 1-3 to voltage type, default 0 mV
+    for (int i = 1; i <= 3; i++) {
+        mod_8AO.setOutputType(i, OutputType::VOLTAGE);
+        mod_8AO.setOutputVoltageDefault(i, 0);
+    }
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_16RO.init();
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+
+}
+
 // May want to consider timings, and invalid valve combinations.
 
 void Outputs::setEvaporatorValve(bool state) {

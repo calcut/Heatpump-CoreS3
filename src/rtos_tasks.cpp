@@ -1,6 +1,7 @@
 #include "rtos_tasks.h"
 
 SemaphoreHandle_t nc_mutex = xSemaphoreCreateMutex();
+SemaphoreHandle_t modbus_mutex = xSemaphoreCreateMutex();
 
 void setupRtos(void){
 
@@ -61,16 +62,23 @@ void setupRtos(void){
 
 void runStateMachine(void * pvParameters){
 
+    xSemaphoreTake(modbus_mutex, portMAX_DELAY);
+    vTaskDelay(5000 / portTICK_PERIOD_MS);
     inputs.init();
+    vTaskDelay(20 / portTICK_PERIOD_MS);
     outputs.init();
+
     stateMachine.demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
     stateMachine.defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
     stateMachine.flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
     stateMachine.compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
     stateMachine.compressorPIDsetpoint = &stateMachine.envVars["demandThreshold"];
+    xSemaphoreGive(modbus_mutex);
     
     while(1){
+        xSemaphoreTake(modbus_mutex, portMAX_DELAY);
         stateMachine.run();
+        xSemaphoreGive(modbus_mutex);
         vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
@@ -196,6 +204,9 @@ void debugTask(void * pvParameters){
         // outputs.mod_8AO.setWatchdog(10000);
         // outputs.setCompressorSpeed(50);
 
+        // xSemaphoreTake(modbus_mutex, portMAX_DELAY);
+        // inputs.mod_a1019.init();
+        // xSemaphoreGive(modbus_mutex);
 
         vTaskDelay(5000 / portTICK_PERIOD_MS);
         

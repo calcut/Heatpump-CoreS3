@@ -29,6 +29,7 @@ public:
         REVERSE = 0
     };
 
+    void init();
     void setReversingValve(bool state);
     void setEvaporatorValve(bool state);
     void setEvaporatorBypassValve(bool state);
