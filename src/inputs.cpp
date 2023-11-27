@@ -2,17 +2,34 @@
 
 Inputs inputs;
 
+void Inputs::init(void){
+
+    USBSerial.println("\n**** Mod_a1019 init ****");
+    
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_a1019.init();
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_evd.init();
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    if (gpioExpander.begin() == false) {
+        USBSerial.println("Check Connections. No I2C GPIO Expander detected.");
+    }
+
+    bool pinModes[8] = {GPIO_IN, GPIO_IN, GPIO_IN, GPIO_IN, GPIO_IN, GPIO_IN, GPIO_IN, GPIO_IN};
+    gpioExpander.pinMode(pinModes);
+}
+
 void Inputs::pollSensorData(void){
     float tc[8];
     float evd_sensors[4];
     float voltage;
-    // mod_a1019.readTC_float(tc);
-    // // Delay seems to be needed to prevent Modbus errors
-    // // It fails at around 3ms or faster. So setting to 20ms
-    // vTaskDelay(20 / portTICK_PERIOD_MS);
-    // mod_evd.getSensors(evd_sensors);
-    // vTaskDelay(20 / portTICK_PERIOD_MS);
-    mod_em408.readVoltage(&voltage);
+    mod_a1019.readTC_float(tc);
+    // Delay seems to be needed to prevent Modbus errors
+    // It fails at around 3ms or faster. So setting to 20ms
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_evd.getSensors(evd_sensors);
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    // mod_em408.readVoltage(&voltage);
 
     temperatureData["Tr1_CompressorOut"]    = tc[0];
     temperatureData["Tr2_CondenserOut"]     = tc[1];
@@ -25,15 +42,25 @@ void Inputs::pollSensorData(void){
 }
 
 void Inputs::pollPhysicalControls(void){
+
+    bool gpioStatus[8];
+    uint8_t portValue = gpioExpander.digitalReadPort(gpioStatus);
+
+    USBSerial.print("GPIO Expander: ");
+    USBSerial.println(portValue, BIN);
+
+    if (gpioStatus[0] == 1){
+        physicalControls.handOffAuto = HAND;
+    }
+    else if (gpioStatus[1] == 1){
+        physicalControls.handOffAuto = OFF;
+    }
+    else if (gpioStatus[2] == 1){
+        physicalControls.handOffAuto = AUTO;
+    }
     physicalControls.handOffAuto = HAND;
     physicalControls.manualState = CHARGING;
     // USBSerial.print("Polling physical controls\n");
-}
-
-void Inputs::init(void){
-    // mod_a1019.init();
-    // vTaskDelay(20 / portTICK_PERIOD_MS);
-    // mod_evd.init();
 }
 
 void Inputs::serviceFlowMeters(void){
