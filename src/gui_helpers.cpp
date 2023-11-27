@@ -76,25 +76,25 @@ void display_pid_info(lv_timer_t * timer){
 
         Serial.printf("PID info poll\n");
 
-        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKp());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID->GetKp());
         lv_label_set_text(ui_Label4_Kp_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKi());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID->GetKi());
         lv_label_set_text(ui_Label4_Ki_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetKd());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID->GetKd());
         lv_label_set_text(ui_Label4_Kd_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetPterm());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID->GetPterm());
         lv_label_set_text(ui_Label4_Pterm_val, text_buffer);
 
         //This is just the most recent term, not the integrated history
-        // sprintf(text_buffer, "%.3g", compressorPID.GetIterm()); 
+        // sprintf(text_buffer, "%.3g", compressorPID->GetIterm()); 
 
-        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetOutputSum()); //include history
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID->GetOutputSum()); //include history
         lv_label_set_text(ui_Label4_Iterm_val, text_buffer);
 
-        sprintf(text_buffer, "%.3g", stateMachine.compressorPID.GetDterm());
+        sprintf(text_buffer, "%.3g", stateMachine.compressorPID->GetDterm());
         lv_label_set_text(ui_Label4_Dterm_val, text_buffer);
 
         sprintf(text_buffer, "%.3g", inputs.speedData["S1_Compressor"]);

@@ -18,19 +18,16 @@ public:
         ERROR
     };
 
-    StateMachine();
+    void init(void);
     void run();
     bool enabled = false;
 
-    QuickPID compressorPID;
 
     State currentState;
     State previousState;
     // Inputs::SensorData sensorData;
     // Inputs::SensorData sensorDataLimitsMax;
     // Inputs::SensorData sensorDataLimitsMin;
-
-    Inputs::PhysicalControls physicalControls;
 
     float* demandSensor;
     float* defrostSensor;
@@ -51,10 +48,13 @@ public:
     };
 
     float flexStoreThreshold = 20.0;
+
+    QuickPID* compressorPID;
+    float Setpoint, Input, Output;
+
     float* compressorPIDinput;
     float* compressorPIDsetpoint;
-    float* compressorPIDoutput;
-
+    float compressorPIDoutput = 0.0;
 
 
 private:

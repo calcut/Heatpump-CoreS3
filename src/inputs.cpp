@@ -43,24 +43,34 @@ void Inputs::pollSensorData(void){
 
 void Inputs::pollPhysicalControls(void){
 
-    bool gpioStatus[8];
-    uint8_t portValue = gpioExpander.digitalReadPort(gpioStatus);
+    USBSerial.print("Polling physical controls\n");
 
-    USBSerial.print("GPIO Expander: ");
-    USBSerial.println(portValue, BIN);
+    bool gpioStatus[8];
+    gpioExpander.digitalReadPort(gpioStatus);
 
     if (gpioStatus[0] == 1){
-        physicalControls.handOffAuto = HAND;
-    }
-    else if (gpioStatus[1] == 1){
-        physicalControls.handOffAuto = OFF;
-    }
-    else if (gpioStatus[2] == 1){
         physicalControls.handOffAuto = AUTO;
     }
-    physicalControls.handOffAuto = HAND;
-    physicalControls.manualState = CHARGING;
-    // USBSerial.print("Polling physical controls\n");
+    else if (gpioStatus[1] == 1){
+        physicalControls.handOffAuto = HAND;
+    }
+    else {
+        physicalControls.handOffAuto = OFF;
+    }
+
+    if (gpioStatus[2] == 1){
+        physicalControls.manualState = DISCHARGING;
+    }
+    else if (gpioStatus[3] == 1){
+        physicalControls.manualState = DEFROST;
+    }
+    else {
+        physicalControls.manualState = CHARGING;
+    }
+
+    USBSerial.printf("HandOffAuto: %i, ManualState: %i\n", physicalControls.handOffAuto, physicalControls.manualState);
+    // physicalControls.handOffAuto = HAND;
+    // physicalControls.manualState = CHARGING;
 }
 
 void Inputs::serviceFlowMeters(void){

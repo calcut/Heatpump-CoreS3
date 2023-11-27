@@ -63,16 +63,7 @@ void setupRtos(void){
 void runStateMachine(void * pvParameters){
 
     xSemaphoreTake(modbus_mutex, portMAX_DELAY);
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-    inputs.init();
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    outputs.init();
-
-    stateMachine.demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
-    stateMachine.defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
-    stateMachine.flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
-    stateMachine.compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
-    stateMachine.compressorPIDsetpoint = &stateMachine.envVars["demandThreshold"];
+    stateMachine.init();
     xSemaphoreGive(modbus_mutex);
     
     while(1){
@@ -190,7 +181,7 @@ void debugTask(void * pvParameters){
     // outputs.init();
     while(1){
         // if (db_vars.enabled == true){
-        //     compressorPID.Compute();
+        //     compressorPID->Compute();
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
         USBSerial.printf("5 second debug print %d\n", millis());

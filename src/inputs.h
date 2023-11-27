@@ -51,8 +51,8 @@ public:
 
 
     enum HandOffAuto {
-        HAND,
         OFF,
+        HAND,
         AUTO,
     };
 
