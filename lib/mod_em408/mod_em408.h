@@ -21,7 +21,7 @@
 class Mod_em408 {
 
 private:
-    int slave_id = MOD_EM408_ADDRESS;
+    int id = MOD_EM408_ADDRESS;
 
 public:
     void init();

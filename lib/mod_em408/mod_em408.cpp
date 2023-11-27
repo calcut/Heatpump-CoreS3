@@ -22,8 +22,8 @@ void Mod_em408::readVoltage(float *voltage) {
 
 void Mod_em408::readRegister(int reg) {
     USBSerial.printf("Reading register %i, ", reg);
-    // if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
-    if (ModbusRTUClient.requestFrom(slave_id, INPUT_REGISTERS,
+    // if (ModbusRTUClient.requestFrom(id, HOLDING_REGISTERS,
+    if (ModbusRTUClient.requestFrom(id, INPUT_REGISTERS,
                                 reg, 1)) {
         USBSerial.print("Success: ");
         while (ModbusRTUClient.available()) {
@@ -41,7 +41,7 @@ void Mod_em408::readRegister(int reg) {
 
 void Mod_em408::writeRegister(int reg, int value) {
     USBSerial.printf("Writing register %i = %i, ", reg, value);
-    ModbusRTUClient.beginTransmission(slave_id, HOLDING_REGISTERS,
+    ModbusRTUClient.beginTransmission(id, HOLDING_REGISTERS,
                                         reg, 1);
     ModbusRTUClient.write(value);
     if (!ModbusRTUClient.endTransmission()) {
