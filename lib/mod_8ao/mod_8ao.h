@@ -25,11 +25,11 @@ enum OutputType {
 class Mod_8AO {
 
     private:
-        int slave_id = MOD_8AO_ADDRESS;
+        int id = MOD_8AO_ADDRESS;
         
-        OutputType output_types[8] = {VOLTAGE,
-                                    VOLTAGE,
-                                    VOLTAGE,
+        OutputType output_types[8] = {OUTPUT_DISABLED,
+                                    OUTPUT_DISABLED,
+                                    OUTPUT_DISABLED,
                                     OUTPUT_DISABLED,
                                     OUTPUT_DISABLED,
                                     OUTPUT_DISABLED,
@@ -38,14 +38,15 @@ class Mod_8AO {
 
     public:
 
+        void init();
         void setOutputVoltage(int output, int mVolts);
         void setOutputVoltageDefault(int output, int mVolts);
         void setOutputCurrent(int output, int uAmps);
         void setOutputCurrentDefault(int output, int uAmps);
 
-        void setOutputType(int output, int type);
+        void setOutputType(int output, OutputType type);
         // Caution, for the change to take effect,
-        //  you must also set the jumper inside the module.
+        // you must also set the jumper inside the module.
 
         void setWatchdog(int16_t watchdog_ms);
 };

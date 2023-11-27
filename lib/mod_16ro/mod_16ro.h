@@ -16,15 +16,15 @@
 class Mod_16RO {
 
     private:
-        int slave_id = MOD_16RO_ADDRESS;
+        int id = MOD_16RO_ADDRESS;
 
     public:
+        void init();
         void setRelays(bool *relays);
         void getRelays(bool *relays);
         void setRelayDefaults(bool *relay_defaults);
         void getRelayDefaults(bool *relay_defaults);
         void setWatchdog(int16_t watchdog_ms);
-        void init(bool *relay_defaults);
 };
 
 #endif
