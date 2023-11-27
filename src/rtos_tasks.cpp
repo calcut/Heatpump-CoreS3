@@ -4,13 +4,13 @@ SemaphoreHandle_t nc_mutex = xSemaphoreCreateMutex();
 
 void setupRtos(void){
 
-    // xTaskCreate(
-    //     runStateMachine, // task function
-    //     "State Machine", // task name
-    //     16384, // stack size in bytes
-    //     NULL, // pointer to parameters
-    //     1, // priority
-    //     NULL); // out pointer to task handle
+    xTaskCreate(
+        runStateMachine, // task function
+        "State Machine", // task name
+        16384, // stack size in bytes
+        NULL, // pointer to parameters
+        1, // priority
+        NULL); // out pointer to task handle
     
     xTaskCreate(
         readFlowMeters, // task function
@@ -62,6 +62,7 @@ void setupRtos(void){
 void runStateMachine(void * pvParameters){
 
     inputs.init();
+    outputs.init();
     stateMachine.demandSensor = &inputs.temperatureData["Tw2_DHWFlow"];
     stateMachine.defrostSensor = &inputs.temperatureData["Ta1_EvaporatorIn"];
     stateMachine.flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
@@ -177,21 +178,24 @@ void timeSyncNotecard(void * pvParameters){
 
 #ifdef DEBUG
 void debugTask(void * pvParameters){
+
+    // outputs.init();
     while(1){
         // if (db_vars.enabled == true){
         //     compressorPID.Compute();
         //     set_compressor_speed(qo_vars.compressor_target_speed);
         // }
         USBSerial.printf("5 second debug print %d\n", millis());
-        bool relays[16];
+        // bool relays[16];
         // outputs.mod_16RO.getRelays(relays);
         // relays[0] = !relays[0];
         // relays[1] = !relays[1];
         // relays[2] = !relays[2];
         // outputs.mod_16RO.setRelays(relays);
-        
-        outputs.mod_8AO.setOutputType(1, 1);
-        outputs.setCompressorSpeed(50);
+        // OutputType voltagetype = OutputType::VOLTAGE;
+        // outputs.mod_8AO.setWatchdog(10000);
+        // outputs.setCompressorSpeed(50);
+
 
         vTaskDelay(5000 / portTICK_PERIOD_MS);
         

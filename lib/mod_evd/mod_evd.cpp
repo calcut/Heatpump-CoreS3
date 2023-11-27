@@ -2,30 +2,30 @@
 
 void Mod_evd::getSensors(float sensors[4]) {
        
-    USBSerial.print("Reading Evd Values: ");
+    USBSerial.println("Reading Evd Values: ");
+    int16_t value;
 
-    if (!ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
+    if (!ModbusRTUClient.requestFrom(id, HOLDING_REGISTERS,
                                 EVD_S1_READ, 4)) {
         USBSerial.print("failed! ");
         USBSerial.println(ModbusRTUClient.lastError());
     }
     else {
-        while (ModbusRTUClient.available()) {
-            USBSerial.println("");
-            USBSerial.print(ModbusRTUClient.read());
+        for (int i = 0; i < 4; i++) {
+            value = ModbusRTUClient.read();
+            sensors[i] = (float)value / 10;
+            USBSerial.printf("S%i: %0.2f\n", i+1, sensors[i]);
         }
-
     }
-    USBSerial.println();
 }
 
 
 void Mod_evd::init(){
-    // Read the module name
+
+    USBSerial.println("\n**** Mod_evd init ****");
 
     USBSerial.println("Reading Evd Network settings");
-
-    if (ModbusRTUClient.requestFrom(slave_id, HOLDING_REGISTERS,
+    if (ModbusRTUClient.requestFrom(id, HOLDING_REGISTERS,
                                 EVD_NETWORK_SETTINGS, 1)) {
         USBSerial.print("Setting Detected: ");
         while (ModbusRTUClient.available()) {
@@ -53,7 +53,7 @@ void Mod_evd::init(){
 
 void Mod_evd::writeRegister(int reg, int value){
     USBSerial.printf("Writing register %i = %i, ", reg, value);
-    ModbusRTUClient.beginTransmission(slave_id, HOLDING_REGISTERS,
+    ModbusRTUClient.beginTransmission(id, HOLDING_REGISTERS,
                                         reg, 1);
     ModbusRTUClient.write(value);
     if (!ModbusRTUClient.endTransmission()) {
@@ -74,7 +74,7 @@ void Mod_evd::updateNetworkSettings(){
 
             // Change to Network Setting 5 = 9600 baud, 1 stop, no parity
     USBSerial.println("Setting EvD Network Settings");
-    ModbusRTUClient.beginTransmission(slave_id, HOLDING_REGISTERS,
+    ModbusRTUClient.beginTransmission(id, HOLDING_REGISTERS,
                                         EVD_NETWORK_SETTINGS, 1);
     ModbusRTUClient.write(5);
     if (!ModbusRTUClient.endTransmission()) {
@@ -92,7 +92,7 @@ void Mod_evd::resetNetworkSettings(){
     // This is just intended for debug/testing
 
     USBSerial.println("Resetting EvD Network Settings");
-    ModbusRTUClient.beginTransmission(slave_id, HOLDING_REGISTERS,
+    ModbusRTUClient.beginTransmission(id, HOLDING_REGISTERS,
                                         EVD_NETWORK_SETTINGS, 1);
     ModbusRTUClient.write(2); // This is the default
     if (!ModbusRTUClient.endTransmission()) {

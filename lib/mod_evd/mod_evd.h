@@ -28,7 +28,7 @@
 class Mod_evd {
 
     private:
-        int slave_id = MOD_EVD_ADDRESS;
+        int id = MOD_EVD_ADDRESS;
         void writeRegister(int reg, int value);
 
     public:
