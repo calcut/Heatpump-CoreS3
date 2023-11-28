@@ -46,8 +46,10 @@ void Inputs::pollPhysicalControls(void){
     USBSerial.print("Polling physical controls\n");
 
     bool gpioStatus[8];
-    gpioExpander.digitalReadPort(gpioStatus);
+    uint8_t gpioval;
+    gpioval = gpioExpander.digitalReadPort(gpioStatus);
 
+    USBSerial.println(gpioval, BIN);
     if (gpioStatus[0] == 1){
         physicalControls.handOffAuto = AUTO;
     }

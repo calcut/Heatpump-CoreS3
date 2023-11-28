@@ -18,18 +18,43 @@ void Outputs::init() {
 
 }
 
+void Outputs::feedWatchdogs() {
+    mod_8AO.getWatchdog();
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    mod_16RO.getWatchdog();
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+}
+
 // May want to consider timings, and invalid valve combinations.
 
-void Outputs::setEvaporatorValve(bool state) {
-    // implementation here
+void Outputs::setEvaporatorValve(ValveState state) {
+    //Assumes valves are Normally Closed
+    
+    // Check evaporator valve and bypass valve are not both closed
+    bool bypassState = mod_16RO.getRelay(EVAPORATOR_BYPASS_VALVE_RELAY);
+    if (state == ValveState::CLOSED && bypassState == false) {
+        USBSerial.println("Error, cannot close Evaporator Valve while Evaporator Bypass Valve is closed");
+        return;
+    }
+    USBSerial.printf("Setting Evaporator Valve to %i\n", state);
+    mod_16RO.setRelay(EVAPORATOR_VALVE_RELAY, state);
 }
 
-void Outputs::setEvaporatorBypassValve(bool state) {
-    // implementation here
+void Outputs::setEvaporatorBypassValve(ValveState state) {
+    //Assumes valves are Normally Closed
+    bool evapState = mod_16RO.getRelay(EVAPORATOR_VALVE_RELAY);
+    if (state == ValveState::CLOSED && evapState == false) {
+        USBSerial.println("Error, cannot close Evaporator Bypass Valve while Evaporator Valve is closed");
+        return;
+    }
+    USBSerial.printf("Setting Evaporator Bypass Valve to %i\n", state);
+    mod_16RO.setRelay(EVAPORATOR_BYPASS_VALVE_RELAY, state);
 }
 
-void Outputs::setReversingValve(bool state) {
-    // implementation here
+void Outputs::setReversingValve(ReversingValveState state) {
+    //Assumes valve is Normally Forward
+    USBSerial.printf("Setting Reversing Valve to %i\n", state);
+    mod_16RO.setRelay(REVERSING_VALVE_RELAY, state);
 }
 
 void Outputs::setCompressorSpeed(float percent) {
@@ -38,5 +63,6 @@ void Outputs::setCompressorSpeed(float percent) {
 }
 
 void Outputs::setFanSpeed(float percent) {
-    // implementation here
+    int mVolts = (int)(percent/100*FAN_MAX_VOLTAGE_MV);
+    mod_8AO.setOutputVoltage(2, mVolts);
 }

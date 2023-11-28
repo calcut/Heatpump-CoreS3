@@ -6,10 +6,15 @@
 #endif
 
 #define COMPRESSOR_MAX_VOLTAGE_MV 5000 //millivolts
+#define FAN_MAX_VOLTAGE_MV 5000 //millivolts
 
 #ifndef VALVE_TRANSITION_TIME_MS
 #define VALVE_TRANSITION_TIME_MS 3000
 #endif
+
+#define EVAPORATOR_VALVE_RELAY 2
+#define EVAPORATOR_BYPASS_VALVE_RELAY 3
+#define REVERSING_VALVE_RELAY 1
 
 #include "mod_16ro.h"
 #include "mod_8ao.h"
@@ -25,14 +30,15 @@ public:
         CLOSED = 0
     };
     enum ReversingValveState {
-        FORWARD = 1,
-        REVERSE = 0
+        FORWARD = 0,
+        REVERSE = 1
     };
 
     void init();
-    void setReversingValve(bool state);
-    void setEvaporatorValve(bool state);
-    void setEvaporatorBypassValve(bool state);
+    void feedWatchdogs();
+    void setReversingValve(ReversingValveState state);
+    void setEvaporatorValve(ValveState state);
+    void setEvaporatorBypassValve(ValveState state);
     void setCompressorSpeed(float percent);
     void setFanSpeed(float percent);
 };

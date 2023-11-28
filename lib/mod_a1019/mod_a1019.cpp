@@ -3,7 +3,7 @@
 
 void Mod_a1019::readTC_float(float_t tc[8]) {
 
-    USBSerial.print("Reading input values: ");
+    USBSerial.print("Reading input values:\n");
     if (ModbusRTUClient.requestFrom(id, HOLDING_REGISTERS,
                                 736, 16)) {  //ABCD
 
@@ -89,7 +89,6 @@ void Mod_a1019::getType(){
 }
 
 void Mod_a1019::init(){
-    
     USBSerial.println("\n**** Mod_a1019 init ****");
 
     if (ModbusRTUClient.requestFrom(id, HOLDING_REGISTERS,
