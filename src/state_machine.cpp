@@ -2,17 +2,6 @@
 
 StateMachine stateMachine;
 
-// StateMachine::StateMachine(void)
-
-//     : compressorPID(
-//         compressorPIDinput, // input
-//         compressorPIDoutput, // output
-//         compressorPIDsetpoint // setpoint
-//     )
-//     {
-//         tunePID();
-// }
-
 void StateMachine::tunePID(void){
     compressorPID->SetTunings(envVars["compressorPID_P"],
                              envVars["compressorPID_I"],
@@ -31,33 +20,35 @@ void StateMachine::init(void){
     flexStoreSensor = &inputs.temperatureData["Tw3_FlexStore"];
     compressorPIDinput = &inputs.temperatureData["Tw2_DHWFlow"];
     compressorPIDsetpoint = &envVars["demandThreshold"];
-
-    Setpoint = 100;
-    Input = 0.0;
+    // compressorPIDinput = &input;
+    // compressorPIDsetpoint = &setpoint;
 
     compressorPID = new QuickPID(
-        compressorPIDinput,
-        &compressorPIDoutput,
-        compressorPIDsetpoint,
-        // compressorPIDinput, // input
-        // compressorPIDoutput, // output
-        // compressorPIDsetpoint, // setpoint
+        compressorPIDinput, // input
+        &compressorPIDoutput, // output
+        compressorPIDsetpoint, // setpoint
         envVars["compressorPID_P"],
         envVars["compressorPID_I"],
         envVars["compressorPID_D"],
         QuickPID::Action::direct
     );
-    compressorPID->SetMode(QuickPID::Control::automatic);
+    // Dont enable PID yet because the input is not valid (nan)
+    // compressorPID->SetMode(QuickPID::Control::automatic);
+    compressorPID->SetOutputLimits(0, 100);
 }
 
 void StateMachine::run(void){
 
     USBSerial.println("Running state machine");
     previousState = currentState;
+
     inputs.pollSensorData();
     inputs.pollPhysicalControls();
+    USBSerial.printf("Compressor PID input = %f\n", *compressorPIDinput);
+    USBSerial.printf("Compressor PID setpoint = %f\n", *compressorPIDsetpoint);
     stateMachine.compressorPID->Compute();
-
+    USBSerial.printf("Compressor PID output = %f\n", compressorPIDoutput);
+    outputs.feedWatchdogs();
 
     if(checkLimits() == false){
         // Add logging or error handling
@@ -144,8 +135,8 @@ void StateMachine::run(void){
         dischargingState();
         return;
     }
-    if(*flexStoreSensor < flexStoreThreshold){
-        //Flex store is below threshold
+    if(*flexStoreSensor <= flexStoreThreshold){
+        //Flex store is below or equal to threshold
         flexStoreThreshold = envVars["flexStoreHigh"];
         currentState = CHARGING;
         USBSerial.println("SM: CHARGING");
@@ -156,15 +147,17 @@ void StateMachine::run(void){
 
 void StateMachine::standbyState(void){
     if (previousState != STANDBY){
-        USBSerial.printf("Entering standby mode\n");
+        USBSerial.printf("Entering standby state\n");
         
         USBSerial.printf("Setting fan speed = %f\n", 0);
         outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
         compressorManualSpeed(0);
+
         outputs.setEvaporatorValve(outputs.OPEN);
         outputs.setEvaporatorBypassValve(outputs.CLOSED);
         outputs.setReversingValve(outputs.FORWARD);
+        USBSerial.printf("Valve Transition delay = %d ms\n", VALVE_TRANSITION_TIME_MS);
         vTaskDelay(VALVE_TRANSITION_TIME_MS / portTICK_PERIOD_MS);
 
         USBSerial.println("In standby state");        
@@ -175,47 +168,52 @@ void StateMachine::standbyState(void){
 
 void StateMachine::dischargingState(void){
     if (previousState != DISCHARGING){
-        USBSerial.printf("Entering discharging mode\n");
+        USBSerial.printf("Entering discharging state\n");
 
         USBSerial.printf("Setting fan speed = %f\n", envVars["fanSpeedEnabled"]);
         outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
         compressorManualSpeed(envVars["compressorSpeedIdle"]);
-        outputs.setEvaporatorValve(outputs.CLOSED);
+
         outputs.setEvaporatorBypassValve(outputs.OPEN);
+        outputs.setEvaporatorValve(outputs.CLOSED);
         outputs.setReversingValve(outputs.REVERSE);
+        USBSerial.printf("Valve Transition delay = %d ms\n", VALVE_TRANSITION_TIME_MS);
         vTaskDelay(VALVE_TRANSITION_TIME_MS / portTICK_PERIOD_MS);
 
         compressorPID->SetMode(QuickPID::Control::automatic);
         USBSerial.println("In discharging state");        
     }
+    vTaskDelay(20 / portTICK_PERIOD_MS);
     outputs.setCompressorSpeed(compressorPIDoutput);
 }
 
 void StateMachine::chargingState(void){
     if (previousState != CHARGING){
-        USBSerial.printf("Entering charging state");
+        USBSerial.printf("Entering charging state\n");
         
         USBSerial.printf("Setting fan speed = %f\n", envVars["fanSpeedEnabled"]);
         outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
 
         compressorManualSpeed(envVars["compressorSpeedIdle"]);
+
         outputs.setEvaporatorValve(outputs.OPEN);
         outputs.setEvaporatorBypassValve(outputs.CLOSED);
         outputs.setReversingValve(outputs.FORWARD);
+        USBSerial.printf("Valve Transition delay = %d ms\n", VALVE_TRANSITION_TIME_MS);
         vTaskDelay(VALVE_TRANSITION_TIME_MS / portTICK_PERIOD_MS);
 
-        // compressorPID->SetMode(QuickPID::Control::automatic);
+        compressorPID->SetMode(QuickPID::Control::automatic);
         USBSerial.println("In charging state");        
     }
-    // USBSerial.printf("Compressor PID output = %f\n", *compressorPIDoutput);
-    // outputs.setCompressorSpeed(compressorPIDoutput);
+    USBSerial.printf("Compressor PID output = %f\n", compressorPIDoutput);
+    outputs.setCompressorSpeed(compressorPIDoutput);
 
 }
 
 void StateMachine::defrostState(void){
     if (previousState != DEFROST){
-        USBSerial.println("Entering defrost state");
+        USBSerial.printf("Entering defrost state\n");
         
         USBSerial.printf("Setting fan speed = %f\n", envVars["fanSpeedEnabled"]);
         outputs.setFanSpeed(envVars["fanSpeedEnabled"]);
@@ -225,8 +223,10 @@ void StateMachine::defrostState(void){
         outputs.setEvaporatorValve(outputs.OPEN);
         outputs.setEvaporatorBypassValve(outputs.CLOSED);
         outputs.setReversingValve(outputs.FORWARD);
+        USBSerial.printf("Valve Transition delay = %d ms\n", VALVE_TRANSITION_TIME_MS);
+        vTaskDelay(VALVE_TRANSITION_TIME_MS / portTICK_PERIOD_MS);
 
-        // compressorPID->SetMode(QuickPID::Control::automatic);
+        compressorPID->SetMode(QuickPID::Control::automatic);
         USBSerial.println("In defrost state");
 
         // Start defrost Timer here
@@ -247,6 +247,6 @@ void StateMachine::compressorManualSpeed(float speed_percent){
     outputs.setCompressorSpeed(speed_percent);
     vTaskDelay(COMPRESSOR_TRANSITION_TIME_MS / portTICK_PERIOD_MS);
 
-    USBSerial.println("...done");
+    USBSerial.println("...manual compressor speed change complete");
 
 };

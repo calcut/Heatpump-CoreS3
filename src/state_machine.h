@@ -47,11 +47,11 @@ public:
         {"compressorPID_D", 0.0}
     };
 
+    // This will be equal to either flexStoreLow or flexStoreHigh
+    // Depending on whether the system is charging or discharging
     float flexStoreThreshold = 20.0;
 
     QuickPID* compressorPID;
-    float Setpoint, Input, Output;
-
     float* compressorPIDinput;
     float* compressorPIDsetpoint;
     float compressorPIDoutput = 0.0;
