@@ -49,6 +49,7 @@ class Mod_8AO {
         // you must also set the jumper inside the module.
 
         void setWatchdog(int16_t watchdog_ms);
+        int16_t getWatchdog();
 };
 
 #endif

@@ -128,3 +128,18 @@ void Mod_8AO::setWatchdog(int16_t watchdog_ms) {
     }
     else USBSerial.println("success");  
 }
+
+int16_t Mod_8AO::getWatchdog(void) {
+
+    USBSerial.print("Getting mod_8AO Watchdog... ");
+    int16_t watchdog_ms;
+    watchdog_ms = ModbusRTUClient.holdingRegisterRead(id, MOD_8AO_WATCHDOG);
+    if (watchdog_ms == -1) {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
+    }
+    else {
+        USBSerial.println(watchdog_ms);
+    }
+    return watchdog_ms;
+}
