@@ -42,6 +42,35 @@ void Mod_16RO::setRelays(bool relays[16]) {
     else USBSerial.println("success");   
 }
 
+void Mod_16RO::setRelay(int relay, bool state) {
+    
+    USBSerial.printf("Setting Relay %i to %i... ", relay, state);
+    int reg = MOD_16RO_OUTPUT1 + (relay - 1);
+
+    if(!ModbusRTUClient.coilWrite(id, reg, state)) {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
+    }
+    else USBSerial.println("success");   
+}
+
+bool Mod_16RO::getRelay(int relay) {
+    
+    USBSerial.printf("Getting State of Relay %i... ", relay);
+    int reg = MOD_16RO_OUTPUT1 + (relay - 1);
+    bool state;
+
+    state = ModbusRTUClient.coilRead(id, reg);
+    if (state == -1) {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
+    }
+    else {
+        USBSerial.println(state);
+    }
+    return state;
+}
+
 void Mod_16RO::setRelayDefaults(bool relayDefaults[16]) {
     
     USBSerial.print("Setting Relay Defaults: ");
@@ -70,6 +99,20 @@ void Mod_16RO::setWatchdog(int16_t watchdog_ms) {
     else USBSerial.println("success");  
 }
 
+int16_t Mod_16RO::getWatchdog(void) {
+
+    USBSerial.print("Getting mod_16RO Watchdog... ");
+    int16_t watchdog_ms;
+    watchdog_ms = ModbusRTUClient.holdingRegisterRead(id, MOD_16RO_WATCHDOG);
+    if (watchdog_ms == -1) {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
+    }
+    else {
+        USBSerial.println(watchdog_ms);
+    }
+    return watchdog_ms;
+}
 
 void Mod_16RO::init(){
 
