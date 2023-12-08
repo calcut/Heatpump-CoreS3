@@ -39,6 +39,28 @@ void Mod_evd::init(){
         USBSerial.println(ModbusRTUClient.lastError());
         updateNetworkSettings();
     }
+
+    //Set Power Supply Mode to "1" (24Vdc)
+    writeRegister(EVD_POWER_SUPPLY_MODE, 1);
+
+    //Set Refrigerant Type to "7" (R290)
+    writeRegister(EVD_REFRIGERANT_TYPE, 7);
+
+    //Set Main Control to "1" (Multiplexed Cabinet/Cold Room)
+    // writeRegister(EVD_MAIN_CONTROL, 1);
+
+    //Set Main Control to "2" (Self contained cabinet/cold room)
+    writeRegister(EVD_MAIN_CONTROL, 2);
+    
+
+    //ENABLE PROBES
+    USBSerial.println("Enabling S1 probes S1-S4...");
+    writeCoil(EVD_S1_ENABLE, true);
+    writeCoil(EVD_S2_ENABLE, true);
+    writeCoil(EVD_S3_ENABLE, true);
+    writeCoil(EVD_S4_ENABLE, true);
+
+    USBSerial.println("Setting Probe Types S1-S4...");
     // Set Probe S1 Type to "6" (0-5V, 0-34.5 barg)
     writeRegister(EVD_S1_CONFIG, 6);
     // Set Probe S2 Type to "1" (Carel NTC)
@@ -48,7 +70,25 @@ void Mod_evd::init(){
     // Set Probe S4 Type to "1" (Carel NTC)
     writeRegister(EVD_S4_CONFIG, 1);
 
+    USBSerial.println("Reading Evd PID values");
+    readRegister(EVD_KP);
+    readRegister(EVD_KI);
+    readRegister(EVD_KD);
+    readRegister(EVD_SH_SETPOINT);
 
+}
+
+int Mod_evd::readRegister(int reg){
+    int value;
+    USBSerial.printf("Reading register %i, ", reg);
+    value = ModbusRTUClient.holdingRegisterRead(id, reg);
+    if (value == -1) {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
+    } else {
+        USBSerial.println(value);
+    }
+    return value;
 }
 
 void Mod_evd::writeRegister(int reg, int value){
@@ -57,6 +97,17 @@ void Mod_evd::writeRegister(int reg, int value){
                                         reg, 1);
     ModbusRTUClient.write(value);
     if (!ModbusRTUClient.endTransmission()) {
+        USBSerial.print("failed! ");
+        USBSerial.println(ModbusRTUClient.lastError());
+    } else {
+        USBSerial.println("Success");
+    }
+}
+
+void Mod_evd::writeCoil(int reg, bool value){
+
+    USBSerial.printf("Writing coil %i = %i, ", reg, value);
+    if (!ModbusRTUClient.coilWrite(id, reg, value)) {
         USBSerial.print("failed! ");
         USBSerial.println(ModbusRTUClient.lastError());
     } else {
