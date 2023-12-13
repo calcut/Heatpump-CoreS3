@@ -3,7 +3,7 @@
 
 #include "mod_a1019.h"
 #include "mod_evd.h"
-#include "mod_em408.h"
+#include "mod_sdm120.h"
 #include "SparkFun_TCA9534.h"
 #include <driver/pcnt.h> //ESP32 Pulse counter
 #include <unordered_map>
@@ -77,7 +77,7 @@ public:
     TCA9534 gpioExpander;
     Mod_a1019 mod_a1019;
     Mod_evd mod_evd;
-    Mod_em408 mod_em408;
+    Mod_sdm120 mod_sdm120;
 
 private:
 

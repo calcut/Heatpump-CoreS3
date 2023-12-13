@@ -222,7 +222,7 @@ void StateMachine::defrostState(void){
 
         outputs.setEvaporatorValve(outputs.OPEN);
         outputs.setEvaporatorBypassValve(outputs.CLOSED);
-        outputs.setReversingValve(outputs.FORWARD);
+        outputs.setReversingValve(outputs.REVERSE);
         USBSerial.printf("Valve Transition delay = %d ms\n", VALVE_TRANSITION_TIME_MS);
         vTaskDelay(VALVE_TRANSITION_TIME_MS / portTICK_PERIOD_MS);
 

@@ -18,12 +18,14 @@
 
 #include "mod_16ro.h"
 #include "mod_8ao.h"
+#include "mod_inverter.h"
 
 class Outputs {
 public:
 
     Mod_16RO mod_16RO;
     Mod_8AO mod_8AO;
+    Mod_inverter mod_inverter;
 
     enum ValveState {
         OPEN = 1,

@@ -94,7 +94,7 @@ int Mod_evd::readRegister(int reg){
 void Mod_evd::writeRegister(int reg, int value){
     USBSerial.printf("Writing register %i = %i, ", reg, value);
     ModbusRTUClient.beginTransmission(id, HOLDING_REGISTERS,
-                                        reg, 1);
+                                        reg, value);
     ModbusRTUClient.write(value);
     if (!ModbusRTUClient.endTransmission()) {
         USBSerial.print("failed! ");

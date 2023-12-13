@@ -29,8 +29,9 @@ void Inputs::pollSensorData(void){
     vTaskDelay(20 / portTICK_PERIOD_MS);
     mod_evd.getSensors(evd_sensors);
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    // mod_em408.readVoltage(&voltage);
+    voltage = mod_sdm120.readRegister(SDM120_VOLTAGE);
 
+    powerData["P1_Supply"] = mod_sdm120.readRegister(SDM120_APPARENT_POWER);
     temperatureData["Tr1_CompressorOut"]    = tc[0];
     temperatureData["Tr2_CondenserOut"]     = tc[1];
     temperatureData["Tr3_FlexStore"]        = tc[2];
@@ -50,20 +51,20 @@ void Inputs::pollPhysicalControls(void){
     gpioval = gpioExpander.digitalReadPort(gpioStatus);
 
     USBSerial.println(gpioval, BIN);
-    if (gpioStatus[0] == 1){
+    if (gpioStatus[1] == 1){
         physicalControls.handOffAuto = AUTO;
     }
-    else if (gpioStatus[1] == 1){
+    else if (gpioStatus[0] == 1){
         physicalControls.handOffAuto = HAND;
     }
     else {
         physicalControls.handOffAuto = OFF;
     }
 
-    if (gpioStatus[2] == 1){
+    if (gpioStatus[7] == 1){
         physicalControls.manualState = DISCHARGING;
     }
-    else if (gpioStatus[3] == 1){
+    else if (gpioStatus[6] == 1){
         physicalControls.manualState = DEFROST;
     }
     else {
